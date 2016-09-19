@@ -1,0 +1,12 @@
+[
+	"Hello World!",
+	"Hello %s!",
+	"Hello %s %s%s!",
+	"Hello %s %s%s %s%s%s :(",
+	"Hello %s %s%s %s%s%s %s%s%s%s",
+	"Hello %x %s%02hhx %s%X%s %s%X%s%X",
+	"Hello %s %s%s %s%s%s %s%s%s%s %s%s%s%s%102f %f",
+	"Hello %1$s!",
+	"Hello %1$*.*s!",
+	"Hello %1$*2$.*3$s!"
+]

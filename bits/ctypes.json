@@ -1,0 +1,8 @@
+{
+	"ModelNames":["LP64", "ILP32", "LLP64"],
+	"Models": {
+		"LP64":  { "char":1, "short":2, "int":4, "long":8, "longlong":8, "wint_t":4, "wchar_t":4, "size_t":8, "intmax_t":8, "ptrdiff_t":8 },
+		"ILP32": { "char":1, "short":2, "int":4, "long":4, "longlong":8, "wint_t":4, "wchar_t":4, "size_t":4, "intmax_t":8, "ptrdiff_t":4 },
+		"LLP64": { "char":1, "short":2, "int":4, "long":4, "longlong":8, "wint_t":2, "wchar_t":2, "size_t":8, "intmax_t":8, "ptrdiff_t":8 }
+	}
+}
