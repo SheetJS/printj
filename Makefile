@@ -35,7 +35,7 @@ clean: clean-stress ## Remove targets and build artifacts
 ## Testing
 
 .PHONY: test mocha
-test mocha: test.js ## Run test suite
+test mocha: test.js $(TARGET) ## Run test suite
 	mocha -R spec -t 20000
 
 .PHONY: stress ## Run stress tests
