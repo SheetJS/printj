@@ -47,13 +47,13 @@ function parse_arg(arg/*:string*/)/*:any*/ {
 var args/*:Array<any>*/ = [];
 var fmt = "", n = 0;
 for(var i = 2; i < argv.length; ++i) switch(argv[i]) {
-	case "--help": case "-h": return help();
-	case "--dump": case "-d": if(fmt.length==0) fmt = argv[++i]; return dump(fmt);
+	case "--help": case "-h": process.exit(help());
+	case "--dump": case "-d": if(fmt.length==0) fmt = argv[++i]; process.exit(dump(fmt));
 	default: if(n++ == 0) fmt = argv[i]; else args.push(parse_arg(argv[i]));
 }
 
 console.log(X.vsprintf(fmt, args));
-return 0;
+process.exit(0);
 
 function dump(fmt) {
 	if(!fmt) { console.error("printj: missing format argument"); return 1; }

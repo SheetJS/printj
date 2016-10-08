@@ -11,9 +11,11 @@
 .*/stress/.*
 
 .*/demo/browser.js
+.*/shim.js
 
 [include]
 printj.flow.js
+.*/bin/.*.njs
 lib/loop_code.js
 lib/loop_char.js
 lib/index_code.js
@@ -24,3 +26,5 @@ lib/regex.js
 bits/flow.js
 
 [options]
+module.file_ext=.js
+module.file_ext=.njs
