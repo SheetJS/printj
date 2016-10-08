@@ -1,6 +1,6 @@
 			/* JS has no concept of pointers so interpret the `l` key as an address */
 			case /*p*/ 112:
-				Vnum = typeof arg == "number" ? arg : Number(arg.l);
+				Vnum = typeof arg == "number" ? arg : arg ? Number(arg.l) : -1;
 				if(isnan(Vnum)) Vnum = -1;
 				if(alt) O = Vnum.toString(10);
 				else {
@@ -24,7 +24,7 @@
 
 			/* JS-specific conversions (extension) */
 			case /*J*/  74: O = (alt ? u_inspect : JSON.stringify)(arg); break;
-			case /*V*/  86: O = String(arg.valueOf()); break;
+			case /*V*/  86: O = arg == null ? "null" : String(arg.valueOf()); break;
 			case /*T*/  84:
 				if(alt) { /* from '[object %s]' extract %s */
 					O = Object.prototype.toString.call(arg).substr(8);

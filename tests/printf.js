@@ -89865,7 +89865,7 @@ var tests = [
 	[["|%05.2Y|", 1], "|000TR|"],
 	[["|%-5.2y|", 0], "|fa   |"],
 
-	// typeof 
+	// typeof
 	[["|%1$T %1$#T|", 0], "|number Number|"],
 	[["|%1$T %1$#T|", 'foo'], "|string String|"],
 	[["|%1$T %1$#T|", [1,2,3]], "|object Array|"],

@@ -17,7 +17,7 @@ stress.h: generate_stress.njs
 stress: stress.c stress.h tests.h
 	gcc $(CPPFLAGS) -o $@ $<
 
-stress.njs: stress.js stress.h tests.h 
+stress.njs: stress.js stress.h tests.h
 	cpp -DJAVASCRIPT $(FLAGS) $< > $@
 
 .PHONY: test

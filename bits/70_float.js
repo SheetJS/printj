@@ -1,4 +1,5 @@
 			Vnum = Number(arg);
+			if(arg === null) Vnum = 0/0;
 			if(len == "L") bytes = 12;
 			var isf = isFinite(Vnum);
 			if(!isf) { /* Infinity or NaN */
@@ -27,7 +28,7 @@
 				switch(isnum) {
 					/* f/F standard */
 					case 1: case 11:
-						if(Vnum < Math.pow(10,21)) {
+						if(Vnum < 1e21) {
 							O = Vnum.toFixed(prec);
 							if(isnum == 1) { if(prec===0 &&alt&& O.indexOf(".")==-1) O+="."; }
 							else if(!alt) O=O.replace(/(\.\d*[1-9])0*$/,"$1").replace(/\.0*$/,"");

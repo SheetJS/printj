@@ -45,7 +45,7 @@ stress:
 	@make -C stress test
 
 .PHONY: clean-stress
-clean-stress: ## Remove stress tests 
+clean-stress: ## Remove stress tests
 	@make -C stress clean
 
 ## Code Checking

@@ -1,6 +1,6 @@
 {
 	"name": "printj",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": "sheetjs",
 	"description": "Pure-JS printf",
 	"keywords": [ "printf", "sprintf", "format", "string" ],

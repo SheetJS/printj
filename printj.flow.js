@@ -26,7 +26,7 @@ var PRINTJ/*:any*/;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '0.1.0';
+PRINTJ.version = '0.1.1';
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	var out/*:ParsedFmt*/ = [];
@@ -275,7 +275,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 			/* JS has no concept of pointers so interpret the `l` key as an address */
 			case /*p*/ 112:
-				Vnum = typeof arg == "number" ? arg : Number(arg.l);
+				Vnum = typeof arg == "number" ? arg : arg ? Number(arg.l) : -1;
 				if(isNaN(Vnum)) Vnum = -1;
 				if(alt) O = Vnum.toString(10);
 				else {
@@ -299,7 +299,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 			/* JS-specific conversions (extension) */
 			case /*J*/  74: O = (alt ? u_inspect : JSON.stringify)(arg); break;
-			case /*V*/  86: O = String(arg.valueOf()); break;
+			case /*V*/  86: O = arg == null ? "null" : String(arg.valueOf()); break;
 			case /*T*/  84:
 				if(alt) { /* from '[object %s]' extract %s */
 					O = Object.prototype.toString.call(arg).substr(8);
@@ -365,7 +365,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 				case 1: Vnum = (Vnum & 0xFF); if(sign && (Vnum >  0x7F)) Vnum -= (0xFF + 1); break;
 				case 2: Vnum = (Vnum & 0xFFFF); if(sign && (Vnum >  0x7FFF)) Vnum -= (0xFFFF + 1); break;
 				case 4: Vnum = sign ? (Vnum | 0) : (Vnum >>> 0); break;
-				default: Vnum = Math.round(Vnum); break;
+				default: Vnum = isNaN(Vnum) ? 0 : Math.round(Vnum); break;
 			}
 
 			/* generate string */
@@ -444,6 +444,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 		} else if(isnum > 0) {
 
 			Vnum = Number(arg);
+			if(arg === null) Vnum = 0/0;
 			if(len == "L") bytes = 12;
 			var isf = isFinite(Vnum);
 			if(!isf) { /* Infinity or NaN */
@@ -472,7 +473,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 				switch(isnum) {
 					/* f/F standard */
 					case 1: case 11:
-						if(Vnum < Math.pow(10,21)) {
+						if(Vnum < 1e21) {
 							O = Vnum.toFixed(prec);
 							if(isnum == 1) { if(prec===0 &&alt&& O.indexOf(".")==-1) O+="."; }
 							else if(!alt) O=O.replace(/(\.\d*[1-9])0*$/,"$1").replace(/\.0*$/,"");

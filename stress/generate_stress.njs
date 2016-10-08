@@ -51,7 +51,7 @@ function getarg(format/*:string*/, length/*:string*/)/*:string*/ {
 	switch(type) {
 		case 's': return "ws";
 		case 'd': if(length == "L") return "ld";
-		case 'i': case 'u': return length + type; 
+		case 'i': case 'u': return length + type;
 	}
 	return type;
 }

@@ -11,7 +11,7 @@ var padstr = {
 function pads(x/*:number*/, c/*:string*/)/*:string*/ { return PAD_(x,c); }
 #define PADS(x,c) pads(x,c)
 #else
-#define PADS(x,c) PAD_(x,c) 
+#define PADS(x,c) PAD_(x,c)
 #endif
 
 #define PAD(x)    pad = PADS(x, " ")
@@ -41,11 +41,11 @@ function pads(x/*:number*/, c/*:string*/)/*:string*/ { return PAD_(x,c); }
 
 #if SIZEOF_SIZE_T > 4 /* TODO: negative ptrs? */
 #define CONV_SIZE_T(x) x = Math.abs(x);
-#define SIZE_T_TO_HEX(n) n.toString(16) 
+#define SIZE_T_TO_HEX(n) n.toString(16)
 #else
 #define CONV_SIZE_T(x) x = (x>>>0);
 #define SIZE_T_TO_HEX(n) n.toString(16)
-#endif 
+#endif
 
 
 #define IDX_POS 2

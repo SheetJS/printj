@@ -9,7 +9,7 @@
 				case 1: _DOIT(0xFF, 0x7F); break;
 				case 2: _DOIT(0xFFFF, 0x7FFF); break;
 				case 4: Vnum = sign ? (Vnum | 0) : (Vnum >>> 0); break;
-				default: Vnum = Math.round(Vnum); break;
+				default: Vnum = isnan(Vnum) ? 0 : Math.round(Vnum); break;
 			}
 #undef _DOIT
 

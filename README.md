@@ -1,7 +1,7 @@
 # printj
 
 Extended `sprintf` implementation (for the browser and nodejs).  Emphasis on
-compliance and performance.
+compliance, performance and IE6+ support.
 
 ```JS
 PRINTJ.sprintf("Hello %s!", "World");
@@ -15,11 +15,15 @@ A self-contained specification of the printf format string is included below in 
 
 With [npm](https://www.npmjs.org/package/printj):
 
-    $ npm install printj
+```bash
+$ npm install printj
+```
 
 In the browser:
 
-    <script src="printj.js"></script>
+```html
+<script src="printj.js"></script>
+```
 
 The browser exposes a variable `PRINTJ`
 
@@ -44,7 +48,7 @@ For example:
 
 ```js
 > // var PRINTJ = require('printj');       // uncomment this line if in node
-> var sprintf = PRINTJ.sprintf, vsprintf = PRINTJ.vsprintf; 
+> var sprintf = PRINTJ.sprintf, vsprintf = PRINTJ.vsprintf;
 > sprintf("Hello %s", "SheetJS")           // 'Hello SheetJS'
 > sprintf("%d + %d = %d", 2,3,2+3)         // '2 + 3 = 5'
 > vsprintf("%d + %d = %d", [2,3,5])        // '2 + 3 = 5'
@@ -87,7 +91,7 @@ requires access to a C compiler.
 Please consult the attached LICENSE file for details.  All rights not explicitly
 granted by the Apache 2.0 license are reserved by the Original Author.
 
-## Badges 
+## Badges
 
 [![Build Status](https://travis-ci.org/SheetJS/printj.svg?branch=master)](https://travis-ci.org/SheetJS/printj)
 
@@ -137,7 +141,7 @@ int vswprintf(wchar_t *ostr, const wchar_t *fmt, va_list arg_list);
 
 C "strings" are really just arrays of numbers.  An external code page (such as
 ASCII) maps those numbers to characters.  K&R defines two types of strings:
-basic character set strings (`char *`) and extended character set strings 
+basic character set strings (`char *`) and extended character set strings
 (`wchar_t *`). In contrast, JS has a true string value type.
 
 Unlike in C, JS strings do not treat the null character as an end-of-string
@@ -439,7 +443,7 @@ K&R "printable characters are always positive", the types are assumed unsigned.
 
 K&R recognizes 3 floating point types.  C99 later tied it to IEC 60559:
 
-|  C data type  | precision | total bits | exponent | mantissa |  fmt  | 
+|  C data type  | precision | total bits | exponent | mantissa |  fmt  |
 |:--------------|:----------|:----------:|:--------:|:--------:|------:|
 | `float`       | single    |    `32`    |    `8`   |   `23`   |       |
 | `double`      | double    |    `64`    |   `11`   |   `52`   |   `f` |
@@ -543,36 +547,36 @@ is signed or unsigned according to the conversion specifier.  If a length is
 specified, it overrides the implied length of the conversion.  The following
 table describes the behavior of this implementation:
 
-| implied C type                      | ctypes.json | length | conv default | 
+| implied C type                      | ctypes.json | length | conv default |
 |:------------------------------------|:------------|:------:|:-------------|
 | `int` or `unsigned int`             | `int`       | (none) | d i o u x X  |
 | `char` or `unsigned char`           | `char`      |   hh   |
 | `short` or `unsigned short`         | `short`     |    h   |
 | `long` or `unsigned long`           | `long`      |    l   | D U O        |
-| `long long` or `unsigned long long` | `longlong`  | L ll q | 
+| `long long` or `unsigned long long` | `longlong`  | L ll q |
 | `intmax_t` or `uintmax_t`           | `intmax_t`  |    j   |
 | `size_t` or `ssize_t`               | `size_t`    |   z Z  |
 | `ptrdiff_t` or unsigned variant     | `ptrdiff_t` |    t   |
 
 ## Rendering Unsigned Integers in Base 10 ("u" and "U" conversions)
 
-`num.toString(10)` produces the correct result for exact integers.  
+`num.toString(10)` produces the correct result for exact integers.
 
-`"u"` conversion restricts values to `int`; `"U"` restricts to `long`. 
+`"u"` conversion restricts values to `int`; `"U"` restricts to `long`.
 
 ## Rendering Unsigned Integers in Base 8 ("o" and "O" conversions)
 
 Even though `num.toString(8)` is implementation-dependent, all browser
-implementations use standard form for integers in the exact range. 
+implementations use standard form for integers in the exact range.
 
 The alternate form (`#`) prints a `"0"` prefix.
 
-`"o"` conversion restricts values to `int`; `"O"` restricts to `long`. 
+`"o"` conversion restricts values to `int`; `"O"` restricts to `long`.
 
 ## Rendering Unsigned Integers in Base 16 ("x" and "X" conversions)
 
 Even though `num.toString(16)` is implementation-dependent, all browser
-implementations use standard form for integers in the exact range. 
+implementations use standard form for integers in the exact range.
 
 The alternate form (`#`) prints a `"0x"` or `"0X"` prefix.
 
@@ -583,7 +587,7 @@ Unlike `"U" "O" "D"`, `"X"` conversion uses `A-F` instead of `a-f` in hex.
 `num.toString(10)` produces the correct result for exact integers.  The flags
 `" +"` control prefixes for positive integers.
 
-`"di"` conversions restrict values to `int`; `"D"` restricts to `long`. 
+`"di"` conversions restrict values to `int`; `"D"` restricts to `long`.
 
 
 # Floating Point Conversions
@@ -678,7 +682,7 @@ JS `num.toString(radix)` is implementation-dependent for valid non-10 radices
 (`2-9, 11-36`).  IE uses hex-mantissa decimal-hex-exponent form when the
 absolute value of the base-2 exponent exceeds 60.  Otherwise, IE uses an exact
 standard hexadecimal form.  Chrome, Safari and other browsers always use the
-exact standard hexadecimal form.  Both forms are easily converted to `"%a"` by 
+exact standard hexadecimal form.  Both forms are easily converted to `"%a"` by
 calculating and dividing by the appropriate power of 2.
 
 For each non-zero normal floating point value, there are 4 acceptable strings
@@ -695,7 +699,7 @@ of 2 and adjusting the exponent accordingly:
 JS engines follow the glibc model: multiply by a suitable power of 16 so that
 the mantissa is between 1 and 16, render left to right one digit at a time, then
 fix the result at the end.  FreeBSD and OSX always show the normalized form.
-This implementation defaults to the normalized form.  To switch to the glibc 
+This implementation defaults to the normalized form.  To switch to the glibc
 form, define `DO_NOT_NORMALIZE` in the `JSFLAGS` variable when building:
 
 ```bash
@@ -958,7 +962,7 @@ JS.  When converting C literal strings, there are a few differences in escaping:
 
 | C escape sequence | Equivalent JS | Notes                                  |
 |:------------------|:--------------|:---------------------------------------|
-| `"\a"`            |  `"\007"`     | BEL character will not ring in browser | 
+| `"\a"`            |  `"\007"`     | BEL character will not ring in browser |
 | `"\?"`            |  `"?"`        | JS does not handle trigraphs           |
 | `"\ooo"` (octal)  |  `"\ooo"`     | JS uses Latin-1 for non-ASCII codes    |
 | `"\xhh"` (hex)    |  `"\xhh"`     | JS uses Latin-1 for non-ASCII codes    |
@@ -970,7 +974,7 @@ JS.  When converting C literal strings, there are a few differences in escaping:
 - Full support for POSIX flags and positional parameters
 - Emulation of BSD `quad_t` and `u_quad_t` conversion
 - Parser accepts but does not emulate CRT wide and unicode character conversions
-- glibc `Z` length conversion and extended `m` error support 
-- CRT `I/w` length but no `I32/I64`
+- glibc `Z` length conversion and extended `m` error support
+- Parser fails on CRT `I32`/`I64` fixed lengths
 - Default `LP64` data model but can be configured to support `ILP32` or `LLP64`
 
