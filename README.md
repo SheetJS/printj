@@ -3,7 +3,7 @@
 Extended `sprintf` implementation (for the browser and nodejs).  Emphasis on
 compliance, performance and IE6+ support.
 
-```JS
+```js
 PRINTJ.sprintf("Hello %s!", "World");
 ```
 
@@ -92,6 +92,8 @@ Please consult the attached LICENSE file for details.  All rights not explicitly
 granted by the Apache 2.0 license are reserved by the Original Author.
 
 ## Badges
+
+[![Build Status](https://saucelabs.com/browser-matrix/printj.svg)](https://saucelabs.com/beta/builds/3b968565c1d942069871fa35eae5162f)
 
 [![Build Status](https://travis-ci.org/SheetJS/printj.svg?branch=master)](https://travis-ci.org/SheetJS/printj)
 
@@ -966,6 +968,21 @@ JS.  When converting C literal strings, there are a few differences in escaping:
 | `"\?"`            |  `"?"`        | JS does not handle trigraphs           |
 | `"\ooo"` (octal)  |  `"\ooo"`     | JS uses Latin-1 for non-ASCII codes    |
 | `"\xhh"` (hex)    |  `"\xhh"`     | JS uses Latin-1 for non-ASCII codes    |
+
+## Browser Deviations
+
+Opera does not always include the last significant digit in base 16 rendering.
+For example, `(-6.9e-11).toString(16)` is `"0.000000004bddc5fd160168"` in every
+other browser but is `"0.000000004bddc5fd16017"` in Opera.  The test suite skips
+the `%a/%A` precision-less formats in Opera.
+
+`Object.prototype.toString.call` gives unexpected results in older browsers, and
+no attempt is made to correct for them.  The test suite ignores those cases:
+
+| value       | `%#T` expected | `%#T` IE < 9 | `%#T` Android < 4.4 |
+|:------------|:---------------|:-------------|:--------------------|
+| `null`      | `"Null"`       | `"Object"`   | `"global"`          |
+| `undefined` | `"Undefined"`  | `"Object"`   | `"global"`          |
 
 ## Support Summary
 

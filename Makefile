@@ -2,6 +2,7 @@ LIB=printj
 REQS=loop_code
 ADDONS=
 AUXTARGETS=lib/loop_char.js lib/loop_code.js lib/index_char.js lib/index_code.js lib/regex.js
+CMDS=bin/printj.njs
 HTMLLINT=index.html
 
 ULIB=$(shell echo $(LIB) | tr a-z A-Z)
@@ -18,7 +19,7 @@ all: $(TARGET) ## Build library and auxiliary scripts
 lib:
 	OUTDIR=$(PWD)/lib make -C bits
 
-$(TARGET): %.js : %.flow.js
+$(TARGET) $(AUXTARGETS): %.js : %.flow.js
 	node -e 'process.stdout.write(require("fs").readFileSync("$<","utf8").replace(/^[ \t]*\/\*[:#][^*]*\*\/\s*(\n)?/gm,"").replace(/\/\*[:#][^*]*\*\//gm,""))' > $@
 
 $(FLOWTARGET): $(DEPS) lib
@@ -38,6 +39,16 @@ clean: clean-stress ## Remove targets and build artifacts
 test mocha: test.js $(TARGET) ## Run test suite
 	mocha -R spec -t 20000
 
+.PHONY: ctest
+ctest: ## Build browser test (into ctest/ subdirectory)
+	cp -f test.js ctest/test.js
+	cp -f shim.js ctest/shim.js
+	cp -f $(TARGET) ctest/
+
+.PHONY: ctestserv
+ctestserv: ## Start a test server on port 8000
+	@cd ctest && python -mSimpleHTTPServer
+
 .PHONY: stress ## Run stress tests
 stress:
 	@make -C stress clean
@@ -51,8 +62,9 @@ clean-stress: ## Remove stress tests
 ## Code Checking
 
 .PHONY: lint
-lint: ## Run jshint and jscs checks
+lint: $(TARGET) ## Run jshint and jscs checks
 	@jshint --show-non-errors $(TARGET) $(AUXTARGETS)
+	@jshint --show-non-errors $(CMDS)
 	@jshint --show-non-errors package.json
 	@jshint --show-non-errors --extract=always $(HTMLLINT)
 	@jscs lib/*.js

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* printj.js (C) 2016-present SheetJS -- http://sheetjs.com */
 /* vim: set ts=2 ft=javascript: */
+/*jshint node:true, evil:true */
 var X = require("../"), argv = process.argv;
 
 function help() {
@@ -47,9 +48,9 @@ function parse_arg(arg/*:string*/)/*:any*/ {
 var args/*:Array<any>*/ = [];
 var fmt = "", n = 0;
 for(var i = 2; i < argv.length; ++i) switch(argv[i]) {
-	case "--help": case "-h": process.exit(help());
-	case "--dump": case "-d": if(fmt.length==0) fmt = argv[++i]; process.exit(dump(fmt));
-	default: if(n++ == 0) fmt = argv[i]; else args.push(parse_arg(argv[i]));
+	case "--help": case "-h": process.exit(help()); break;
+	case "--dump": case "-d": if(fmt.length===0) fmt = argv[++i]; process.exit(dump(fmt)); break;
+	default: if(n++ === 0) fmt = argv[i]; else args.push(parse_arg(argv[i]));
 }
 
 console.log(X.vsprintf(fmt, args));

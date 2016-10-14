@@ -89881,7 +89881,7 @@ var tests = [
 
 	// JSON
 	[["|%1$J|%1$#J|", 1], '|1|1|'],
-	[["|%1$J|%1$#J|", "2"], '|"2"|\'2\'|'],
+	[["|%1$J|%1$#J|", "2"], typeof require !== 'undefined' ? '|"2"|\'2\'|' : '|"2"|"2"|'],
 
 	// length
 	[["%p", p], "0x7b"],
@@ -89921,6 +89921,6 @@ tests.push([["|%#m|", e1], "|sheetjs|"])
 tests.push([["|%#m|", e2], "|Error number 69|"])
 tests.push([["|%#m|", e3], "|Error SHEETJS|"])
 
-module.exports = tests;
+if(typeof module !== 'undefined') module.exports = tests;
 
 
