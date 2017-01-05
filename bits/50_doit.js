@@ -2,7 +2,8 @@
 #include "40_macros.js"
 /*:: declare var util:any; */
 /*:: declare var require: any; */
-if(typeof util=='undefined' && typeof require!=='undefined')util=require("util");
+/*global process:true, util:true, require:true */
+if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
 var u_inspect/*:(o:any)=>string*/ = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
 
 

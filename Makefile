@@ -33,6 +33,13 @@ clean: clean-stress ## Remove targets and build artifacts
 	@OUTDIR=$(PWD)/lib make -C bits clean
 	rm -f $(TARGET) $(FLOWTARGET)
 
+.PHONY: dist
+dist: $(TARGET) ## Prepare JS files for distribution
+	cp $(TARGET) dist/
+	cp LICENSE dist/
+	uglifyjs $(TARGET) -o dist/$(LIB).min.js --source-map dist/$(LIB).min.map --preamble "$$(head -n 1 bits/00_header.js)"
+	misc/strip_sourcemap.sh dist/$(LIB).min.js
+
 ## Testing
 
 .PHONY: test mocha
@@ -49,8 +56,8 @@ ctest: ## Build browser test (into ctest/ subdirectory)
 ctestserv: ## Start a test server on port 8000
 	@cd ctest && python -mSimpleHTTPServer
 
-.PHONY: stress ## Run stress tests
-stress:
+.PHONY: stress
+stress: ## Run stress tests
 	@make -C stress clean
 	@make -C stress
 	@make -C stress test

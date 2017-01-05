@@ -1,4 +1,3 @@
-
 /* printj.js (C) 2016-present SheetJS -- http://sheetjs.com */
 /* vim: set ts=2: */
 /*jshint sub:true, eqnull:true */
@@ -24,7 +23,7 @@ var PRINTJ;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '0.1.1';
+PRINTJ.version = '1.0.0';
 
 function tokenize(fmt) {
 	var out = [];
@@ -156,7 +155,8 @@ var padstr = {
 	"f": "fffffffffffffffffffffffffffffffff"
 };
 
-if(typeof util=='undefined' && typeof require!=='undefined')util=require("util");
+/*global process:true, util:true, require:true */
+if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
 var u_inspect = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
 
 function doit(t, args) {
@@ -586,7 +586,6 @@ function doit(t, args) {
 
 function vsprintf(fmt, args) { return doit(tokenize(fmt), args); }
 
-//function sprintf() { return doit(tokenize(arguments[0]), Array.prototype.slice.call(arguments, 1)); }
 function sprintf() {
 	var args = new Array(arguments.length - 1);
 	for(var i = 0; i < args.length; ++i) args[i] = arguments[i+1];

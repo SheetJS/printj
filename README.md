@@ -93,11 +93,17 @@ granted by the Apache 2.0 license are reserved by the Original Author.
 
 ## Badges
 
-[![Build Status](https://saucelabs.com/browser-matrix/printj.svg)](https://saucelabs.com/beta/builds/3b968565c1d942069871fa35eae5162f)
+[![Build Status](https://saucelabs.com/browser-matrix/printj.svg)](https://saucelabs.com/u/printj)
 
 [![Build Status](https://travis-ci.org/SheetJS/printj.svg?branch=master)](https://travis-ci.org/SheetJS/printj)
 
 [![Coverage Status](http://img.shields.io/coveralls/SheetJS/printj/master.svg)](https://coveralls.io/r/SheetJS/printj?branch=master)
+
+[![NPM Downloads](https://img.shields.io/npm/dt/printj.svg)](https://npmjs.org/package/printj)
+
+[![Dependencies Status](https://david-dm.org/sheetjs/printj/status.svg)](https://david-dm.org/sheetjs/printj)
+
+[![ghit.me](https://ghit.me/badge.svg?repo=sheetjs/printj)](https://ghit.me/repo/sheetjs/printj)
 
 [![Analytics](https://ga-beacon.appspot.com/UA-36810333-1/SheetJS/printj?pixel)](https://github.com/SheetJS/printj)
 

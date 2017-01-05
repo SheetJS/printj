@@ -1,4 +1,3 @@
-
 /* printj.js (C) 2016-present SheetJS -- http://sheetjs.com */
 /* vim: set ts=2: */
 /*jshint sub:true, eqnull:true */
@@ -26,7 +25,7 @@ var PRINTJ/*:any*/;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '0.1.1';
+PRINTJ.version = '1.0.0';
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	var out/*:ParsedFmt*/ = [];
@@ -160,7 +159,8 @@ var padstr = {
 
 /*:: declare var util:any; */
 /*:: declare var require: any; */
-if(typeof util=='undefined' && typeof require!=='undefined')util=require("util");
+/*global process:true, util:true, require:true */
+if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
 var u_inspect/*:(o:any)=>string*/ = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
 
 function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
@@ -590,7 +590,6 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 function vsprintf(fmt/*:string*/, args/*:Array<any>*/) { return doit(tokenize(fmt), args); }
 
-//function sprintf() { return doit(tokenize(arguments[0]), Array.prototype.slice.call(arguments, 1)); }
 function sprintf()/*:string*/ {
 	var args/*:Array<any>*/ = new Array(arguments.length - 1);
 	for(var i = 0; i < args.length; ++i) args[i] = arguments[i+1];

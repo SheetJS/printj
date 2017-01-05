@@ -31,6 +31,7 @@ This implementation supports the full POSIX set of conversions.  Consult the enc
 <script src="http://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
 <script src="printj.js"></script>
 <script type="text/javascript">
+/*global PRINTJ */
 var table = document.getElementById("data");
 var ex = [
 	'printf("|Hello %s|", "SheetJS")',
@@ -50,6 +51,7 @@ var ex = [
 ];
 window.onload = function() {
 	var printf = PRINTJ.sprintf;
+	printf("Hello %s", "world");
 	ex.forEach(function(m) {
 		var row = table.insertRow(table.rows.length);
 		var c1 = row.insertCell(0); c1.innerHTML = "<pre>" + m + "</pre>";
