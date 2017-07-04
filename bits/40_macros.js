@@ -1,6 +1,6 @@
 #define isnan isNaN
 //#define PAD_(x,c) (x >= 0 ? new Array(((x)|0) + 1).join((c)) : "")
-var padstr = {
+var padstr/*:{[s:string]:string}*/ = {
 	" ": "                                 ",
 	"0": "000000000000000000000000000000000",
 	"7": "777777777777777777777777777777777",
@@ -37,7 +37,7 @@ function pads(x/*:number*/, c/*:string*/)/*:string*/ { return PAD_(x,c); }
 #error SIZEOF_WCHAR_T must be 1, 2, or 4
 #endif
 
-#define CHAR_TO_STR(O,cc) cc &= MASK_CHAR; O = String.fromCharCode(cc);
+#define CHAR_TO_STR(O,cc) { cc &= MASK_CHAR; O = String.fromCharCode(cc); }
 
 #if SIZEOF_SIZE_T > 4 /* TODO: negative ptrs? */
 #define CONV_SIZE_T(x) x = Math.abs(x);

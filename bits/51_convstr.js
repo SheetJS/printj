@@ -15,7 +15,7 @@
 						if(c == 67 || len.charCodeAt(0) === /*l*/ 108) WCHAR_TO_STR(O, cc)
 						else CHAR_TO_STR(O, cc)
 						break;
-					case "string": O = arg.charAt(0); break;
+					case "string": O = /*::(*/arg/*:: :string)*/.charAt(0); break;
 					default: O = String(arg).charAt(0);
 				}
 				WIDTH(O, width, flags)

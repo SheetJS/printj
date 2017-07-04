@@ -31,7 +31,7 @@
 				} else {
 					Vnum = (-Vnum) % 1e16;
 					var d1/*:Array<number>*/ = [1,8,4,4,6,7,4,4,0,7,3,7,0,9,5,5,1,6,1,6];
-					var di = d1.length - 1;
+					var di/*:number*/ = d1.length - 1;
 					while(Vnum > 0) {
 						if((d1[di] -= (Vnum % 10)) < 0) { d1[di] += 10; d1[di-1]--; }
 						--di; Vnum = Math.floor(Vnum / 10);

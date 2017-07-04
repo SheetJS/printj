@@ -1,8 +1,8 @@
-#!/usr/bin/env node
-/* printj.js (C) 2016-present SheetJS -- http://sheetjs.com */
-/* vim: set ts=2 ft=javascript: */
+/* printj.ts (C) 2016-present SheetJS -- http://sheetjs.com */
+/* vim: set ts=2 ft=typescript: */
 /*jshint node:true, evil:true */
-var X = require("../"), argv = process.argv;
+import X = require("printj");
+let argv = ["n:1","a","e:null","f:3.4", "b:true", "e:1+1"];
 
 function help() {
 [
@@ -10,7 +10,6 @@ function help() {
 "",
 "Options:",
 "    -h, --help      output usage information",
-"    -d, --dump      print debug information about format string",
 "",
 "Arguments are treated as strings unless prefaced by a type indicator:",
 "    n:<integer>     call parseInt (ex. n:3 -> 3)",
@@ -29,35 +28,26 @@ function help() {
 "Support email: dev@sheetjs.com",
 "Web Demo: http://oss.sheetjs.com/printj/"
 ].forEach(function(l) { console.log(l); });
-	return 0;
+return 0;
 }
 
-function parse_arg(arg/*:string*/)/*:any*/ {
-	var m = arg.substr(2), p/*:number*/ = 0;
+function parse_arg(arg: string): any {
+	let m: string = arg.substr(2), p: number = 0;
 	if(arg.charCodeAt(1) === 58) switch((p = arg.charCodeAt(0))) {
 		case /*n*/ 110: return parseInt(m, 10);
 		case /*f*/ 102: return parseFloat(m);
 		case /*b*/  98: return !(m.toUpperCase() === "FALSE" || m === "0");
 		case /*j*/ 106: return JSON.parse(m);
-		case /*e*/ 101: return eval(m);
 		case /*s*/ 115: return m;
 	}
 	return arg;
 }
 
-var args/*:Array<any>*/ = [];
-var fmt = "", n = 0;
-for(var i = 2; i < argv.length; ++i) switch(argv[i]) {
-	case "--help": case "-h": process.exit(help()); break;
-	case "--dump": case "-d": if(fmt.length===0) fmt = argv[++i]; process.exit(dump(fmt)); break;
+let args: any[] = [];
+let fmt = "", n = 0;
+for(let i = 2; i < argv.length; ++i) switch(argv[i]) {
+	case "--help": case "-h": break;
 	default: if(n++ === 0) fmt = argv[i]; else args.push(parse_arg(argv[i]));
 }
 
 console.log(X.vsprintf(fmt, args));
-process.exit(0);
-
-function dump(fmt/*:string*/)/*:number*/ {
-	if(!fmt) { console.error("printj: missing format argument"); return 1; }
-	X._tokenize(fmt).forEach(function(x){console.log(x);});
-	return 0;
-}

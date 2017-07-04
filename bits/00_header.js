@@ -2,9 +2,9 @@
 /* vim: set ts=2: */
 /*jshint sub:true, eqnull:true */
 /*exported PRINTJ */
-/*:: declare var DO_NOT_EXPORT_PRINTJ: any; */
-/*:: declare var define: any; */
-var PRINTJ/*:any*/;
+/*:: declare var DO_NOT_EXPORT_PRINTJ:?boolean; */
+/*:: declare function define(cb:()=>any):void; */
+var PRINTJ/*:PRINTJModule*/;
 (function (factory/*:(a:any)=>void*/)/*:void*/ {
 	/*jshint ignore:start */
 	if(typeof DO_NOT_EXPORT_PRINTJ === 'undefined') {
@@ -12,16 +12,16 @@ var PRINTJ/*:any*/;
 			factory(exports);
 		} else if ('function' === typeof define && define.amd) {
 			define(function () {
-				var module/*:any*/ = {};
+				var module/*:PRINTJModule*/ = /*::(*/{}/*:: :any)*/;
 				factory(module);
 				return module;
 			});
 		} else {
-			factory(PRINTJ = {});
+			factory(PRINTJ = /*::(*/{}/*:: :any)*/);
 		}
 	} else {
-		factory(PRINTJ = {});
+		factory(PRINTJ = /*::(*/{}/*:: :any)*/);
 	}
 	/*jshint ignore:end */
-}(function(PRINTJ) {
+}(function(PRINTJ/*:PRINTJModule*/) {
 #include "01_version.js"

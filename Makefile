@@ -84,6 +84,10 @@ old-lint: $(TARGET) ## Run jshint and jscs checks
 	@jscs lib/*.js
 	if [ -e $(CLOSURE) ]; then java -jar $(CLOSURE) $(FLOWTARGET) --jscomp_warning=reportUnknownTypes >/dev/null; fi
 
+.PHONY: tslint
+tslint: $(TARGET) ## Run typescript checks
+	#@npm install dtslint typescript
+	@npm run-script dtslint
 
 .PHONY: flow
 flow: lint ## Run flow checker

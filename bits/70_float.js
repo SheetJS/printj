@@ -1,7 +1,7 @@
 			Vnum = Number(arg);
 			if(arg === null) Vnum = 0/0;
 			if(len == "L") bytes = 12;
-			var isf = isFinite(Vnum);
+			var isf/*:boolean*/ = isFinite(Vnum);
 			if(!isf) { /* Infinity or NaN */
 				if(Vnum < 0) O = "-";
 				else if(flags.indexOf("+") > -1) O = "+";
@@ -94,7 +94,7 @@
 						O = Vnum.toString(16);
 						if(O.length > 1) {
 							if(O.length > prec+2 && O.charCodeAt(prec+2) >= 56) {
-								var _f = O.charCodeAt(0) == 102;
+								var _f/*:boolean*/ = O.charCodeAt(0) == 102;
 								O = (Vnum + 8 * Math.pow(16, -prec-1)).toString(16);
 								if(_f && O.charCodeAt(0) == 49) E += 4;
 							}

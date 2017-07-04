@@ -1,7 +1,6 @@
 #include "30_ctypes.js"
 #include "40_macros.js"
-/*:: declare var util:any; */
-/*:: declare var require: any; */
+/*:: var util = require('util'); */
 /*global process:true, util:true, require:true */
 if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
 var u_inspect/*:(o:any)=>string*/ = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
@@ -12,8 +11,8 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 	var argidx/*:number*/ = 0, idx/*:number*/ = 0;
 	var Vnum/*:number*/ = 0;
 	var pad/*:string*/ = "";
-	for(var i = 0; i < t.length; ++i) {
-		var m/*:Array<any>*/ = t[i], c/*:number*/ = (m[0]/*:string*/).charCodeAt(0);
+	for(var i/*:number*/ = 0; i < t.length; ++i) {
+		var m/*:ParsedEntry*/ = t[i], c/*:number*/ = (m[0]/*:string*/).charCodeAt(0);
 		/* m order: conv full param flags width prec length */
 
 		if(c === /*L*/ 76) { o.push(m[1]); continue; }
@@ -24,7 +23,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 		/* flags */
 		var flags/*:string*/ = m[IDX_FLAGS]||"";
-		var alt = flags.indexOf("#") > -1;
+		var alt/*:boolean*/ = flags.indexOf("#") > -1;
 
 		/* position */
 		if(m[IDX_POS]) argidx = parseInt(m[IDX_POS])-1;

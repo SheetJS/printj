@@ -23,7 +23,7 @@ var PRINTJ;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '1.0.0';
+PRINTJ.version = '1.0.1';
 
 function tokenize(fmt) {
 	var out = [];
@@ -216,7 +216,7 @@ function doit(t, args) {
 					case "number":
 						var cc = arg;
 						if(c == 67 || len.charCodeAt(0) === /*l*/ 108) {  cc &= 0xFFFFFFFF; O = String.fromCharCode( cc); }
-						else  cc &= 0xFF; O = String.fromCharCode( cc);
+						else {  cc &= 0xFF; O = String.fromCharCode( cc); }
 						break;
 					case "string": O = arg.charAt(0); break;
 					default: O = String(arg).charAt(0);

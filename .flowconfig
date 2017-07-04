@@ -2,7 +2,6 @@
 .*/node_modules/.*
 .*/dist/.*
 .*/test.js
-.*/printj.js
 
 .*/bits/.*
 .*/ctest/.*
@@ -12,6 +11,8 @@
 
 .*/demo/browser.js
 .*/shim.js
+
+.*/printj.js
 
 [include]
 printj.flow.js
