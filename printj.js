@@ -23,7 +23,7 @@ var PRINTJ;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '1.0.1';
+PRINTJ.version = '1.1.0';
 
 function tokenize(fmt) {
 	var out = [];
@@ -313,6 +313,8 @@ function doit(t, args) {
 				break;
 
 		}
+
+		if(width < 0) { width = -width; flags += "-"; }
 
 		if(isnum == -1) {
 

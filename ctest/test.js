@@ -171,4 +171,23 @@ describe('special cases', function() {
 		assert.equal(sprintf("|%1$b|%1$B|%1$d|%1$D|%1$i|%1$o|%1$O|%1$u|%1$U|%1$x|%1$X|", undefined), "|0|0|0|0|0|0|0|0|0|0|0|");
 		assert.equal(sprintf("|%1$b|%1$B|%1$d|%1$D|%1$i|%1$o|%1$O|%1$u|%1$U|%1$x|%1$X|", null), "|0|0|0|0|0|0|0|0|0|0|0|");
 	});
+	it('handles dynamic specifiers', function() {
+		assert.equal(sprintf("|%5s|", "sheetjs"), "|sheetjs|");
+		assert.equal(sprintf("|%*s|", 5, "sheetjs"), "|sheetjs|");
+		assert.equal(sprintf("|%2$*1$s|", 5, "sheetjs", 10), "|sheetjs|");
+		assert.equal(sprintf("|%10s|", "sheetjs"), "|   sheetjs|");
+		assert.equal(sprintf("|%2$*3$s|", 5, "sheetjs", 10), "|   sheetjs|");
+		assert.equal(sprintf("|%0*.*d|", 4, 2, 1), "|  01|");
+		assert.equal(sprintf("|%1$0*3$.*2$d|", 1, 2, 4), "|  01|");
+		assert.equal(sprintf("|%*.*d|",   4, 2, 1), "|  01|");
+		assert.equal(sprintf("|%-*.*d|",  4, 2, 1), "|01  |");
+		assert.equal(sprintf("|%*.*d|",  -4, 2, 1), "|01  |");
+		assert.equal(sprintf("|%-*.*d|", -4, 2, 1), "|01  |");
+		assert.equal(sprintf("|%*s|", 4, "sheetjs"), "|sheetjs|");
+		assert.equal(sprintf("|%*.*s|", 4,  3, "sheetjs"), "| she|");
+		assert.equal(sprintf("|%*.*s|", 4,  2, "sheetjs"), "|  sh|");
+		assert.equal(sprintf("|%*.*s|", 4,  1, "sheetjs"), "|   s|");
+		assert.equal(sprintf("|%*.*s|", 4,  0, "sheetjs"), "|    |");
+		assert.equal(sprintf("|%*.*s|", 4, -1, "sheetjs"), "|sheetjs|");
+	});
 });

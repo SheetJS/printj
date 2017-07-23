@@ -70,6 +70,8 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 #include "54_convmisc.js"
 		}
 
+		if(width < 0) { width = -width; flags += "-"; }
+
 		if(isnum == -1) {
 #include "60_integer.js"
 		} else if(isnum > 0) {

@@ -396,12 +396,12 @@ printf("|%-*.*d|", -4, 2, 1);        // |01  | width=4 prec=2 value=1 flags='-'
 A negative precision is discarded:
 
 ```C
-printf("|%*s|\n", 4, "sheetjs");       // |sheetjs|  width=4
-printf("|%*.*s|\n", 4,  3, "sheetjs"); // | she|     width=4 prec=3
-printf("|%*.*s|\n", 4,  2, "sheetjs"); // |  sh|     width=4 prec=2
-printf("|%*.*s|\n", 4,  1, "sheetjs"); // |   s|     width=4 prec=1
-printf("|%*.*s|\n", 4,  0, "sheetjs"); // |    |     width=4 prec=0
-printf("|%*.*s|\n", 4, -1, "sheetjs"); // |sheetjs|  width=4 (prec ignored)
+printf("|%*s|", 4, "sheetjs");       // |sheetjs|  width=4
+printf("|%*.*s|", 4,  3, "sheetjs"); // | she|     width=4 prec=3
+printf("|%*.*s|", 4,  2, "sheetjs"); // |  sh|     width=4 prec=2
+printf("|%*.*s|", 4,  1, "sheetjs"); // |   s|     width=4 prec=1
+printf("|%*.*s|", 4,  0, "sheetjs"); // |    |     width=4 prec=0
+printf("|%*.*s|", 4, -1, "sheetjs"); // |sheetjs|  width=4 (prec ignored)
 ```
 
 
@@ -544,9 +544,9 @@ When a length specifier implies a certain size (such as `hh` for a single-byte
 integer), the number will be converted before rendering strings.  For example:
 
 ```C
-printf("%1$02hhx %1$02hx %1$02lx %1$02llx\n", 256);       // 00 100 100 100
-printf("%1$02hhx %1$02hx %1$02lx %1$02llx\n", 4096);      // 00 1000 1000 1000
-printf("%1$02hhx %1$02hx %1$02lx %1$02llx\n", 65536);     // 00 00 10000 10000
+printf("%1$02hhx %1$02hx %1$02lx %1$02llx", 256);       // |00 100 100 100|
+printf("%1$02hhx %1$02hx %1$02lx %1$02llx", 4096);      // |00 1000 1000 1000|
+printf("%1$02hhx %1$02hx %1$02lx %1$02llx", 65536);     // |00 00 10000 10000|
 ```
 
 Values are restricted by first limiting the result to a specified number of
