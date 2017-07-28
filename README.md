@@ -91,9 +91,13 @@ requires access to a C compiler.
 Please consult the attached LICENSE file for details.  All rights not explicitly
 granted by the Apache 2.0 license are reserved by the Original Author.
 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FSheetJS%2Fprintj.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FSheetJS%2Fprintj?ref=badge_large)
+
 ## Badges
 
 [![Build Status](https://saucelabs.com/browser-matrix/printj.svg)](https://saucelabs.com/u/printj)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FSheetJS%2Fprintj.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FSheetJS%2Fprintj?ref=badge_shield)
 
 [![Build Status](https://travis-ci.org/SheetJS/printj.svg?branch=master)](https://travis-ci.org/SheetJS/printj)
 
@@ -1000,4 +1004,3 @@ no attempt is made to correct for them.  The test suite ignores those cases:
 - glibc `Z` length conversion and extended `m` error support
 - Parser fails on CRT `I32`/`I64` fixed lengths
 - Default `LP64` data model but can be configured to support `ILP32` or `LLP64`
-
