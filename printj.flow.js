@@ -7,6 +7,7 @@
 var PRINTJ/*:PRINTJModule*/;
 (function (factory/*:(a:any)=>void*/)/*:void*/ {
 	/*jshint ignore:start */
+	/*eslint-disable */
 	if(typeof DO_NOT_EXPORT_PRINTJ === 'undefined') {
 		if('object' === typeof exports) {
 			factory(exports);
@@ -22,10 +23,11 @@ var PRINTJ/*:PRINTJModule*/;
 	} else {
 		factory(PRINTJ = /*::(*/{}/*:: :any)*/);
 	}
+	/*eslint-enable */
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 
-PRINTJ.version = '1.1.0';
+PRINTJ.version = '1.1.1';
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	var out/*:ParsedFmt*/ = [];
@@ -238,7 +240,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 			/* unsigned integer */
 			case /*U*/  85: bytes = 8;
 			/* falls through */
- 			case /*u*/ 117: isnum = -1; break;
+			case /*u*/ 117: isnum = -1; break;
 
 			/* unsigned octal */
 			case /*O*/  79: bytes = 8;

@@ -70,6 +70,9 @@ clean-stress: ## Remove stress tests
 
 ## Code Checking
 
+.PHONY: fullint
+fullint: lint old-lint tslint flow mdlint ## Run all checks
+
 .PHONY: lint
 lint: $(TARGET) ## Run eslint checks
 	@eslint --ext .js,.njs,.json,.html,.htm $(TARGET) $(AUXTARGETS) $(CMDS) $(HTMLLINT) package.json bower.json
@@ -102,6 +105,12 @@ misc/coverage.html: $(TARGET) test.js
 .PHONY: coveralls
 coveralls: ## Coverage Test + Send to coveralls.io
 	mocha --require blanket --reporter mocha-lcov-reporter -t 20000 | node ./node_modules/coveralls/bin/coveralls.js
+
+MDLINT=README.md
+.PHONY: mdlint
+mdlint: $(MDLINT) ## Check markdown documents
+	alex $^
+	mdspell -a -n -x -r --en-us $^
 
 .PHONY: help
 help:

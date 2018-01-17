@@ -7,6 +7,7 @@
 var PRINTJ/*:PRINTJModule*/;
 (function (factory/*:(a:any)=>void*/)/*:void*/ {
 	/*jshint ignore:start */
+	/*eslint-disable */
 	if(typeof DO_NOT_EXPORT_PRINTJ === 'undefined') {
 		if('object' === typeof exports) {
 			factory(exports);
@@ -22,6 +23,7 @@ var PRINTJ/*:PRINTJModule*/;
 	} else {
 		factory(PRINTJ = /*::(*/{}/*:: :any)*/);
 	}
+	/*eslint-enable */
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 #include "01_version.js"

@@ -5,6 +5,7 @@
 var PRINTJ;
 (function (factory) {
 	/*jshint ignore:start */
+	/*eslint-disable */
 	if(typeof DO_NOT_EXPORT_PRINTJ === 'undefined') {
 		if('object' === typeof exports) {
 			factory(exports);
@@ -20,10 +21,11 @@ var PRINTJ;
 	} else {
 		factory(PRINTJ = {});
 	}
+	/*eslint-enable */
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '1.0.1';
+PRINTJ.version = '1.1.1';
 
 function tokenize(fmt) {
 	var out = [];
@@ -235,7 +237,7 @@ function doit(t, args) {
 			/* unsigned integer */
 			case /*U*/  85: bytes = 8;
 			/* falls through */
- 			case /*u*/ 117: isnum = -1; break;
+			case /*u*/ 117: isnum = -1; break;
 
 			/* unsigned octal */
 			case /*O*/  79: bytes = 8;
@@ -313,6 +315,8 @@ function doit(t, args) {
 				break;
 
 		}
+
+		if(width < 0) { width = -width; flags += "-"; }
 
 		if(isnum == -1) {
 

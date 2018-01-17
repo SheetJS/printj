@@ -7,7 +7,7 @@
 			/* unsigned integer */
 			case /*U*/  85: LONG;
 			/* falls through */
- 			case /*u*/ 117: INT; break;
+			case /*u*/ 117: INT; break;
 
 			/* unsigned octal */
 			case /*O*/  79: LONG;

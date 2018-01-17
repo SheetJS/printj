@@ -1,27 +1,41 @@
 {
 	"name": "printj",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"author": "sheetjs",
 	"description": "Pure-JS printf",
-	"keywords": [ "printf", "sprintf", "format", "string" ],
+	"keywords": [
+		"printf",
+		"sprintf",
+		"format",
+		"string"
+	],
 	"bin": {
 		"printj": "./bin/printj.njs"
 	},
 	"main": "./printj",
 	"types": "types",
+	"browser": {
+		"process": false,
+		"util": false
+	},
 	"dependencies": {
 	},
 	"devDependencies": {
-		"mocha":"~2.5.3",
+		"mocha": "~2.5.3",
 		"blanket": "~1.2.3",
-		"@sheetjs/uglify-js":"~2.7.3",
-		"@types/node":"^8.0.7",
+		"@sheetjs/uglify-js": "~2.7.3",
+		"@types/node": "^8.0.7",
 		"dtslint": "^0.1.2",
 		"typescript": "2.2.0"
 	},
-	"repository": { "type":"git", "url":"git://github.com/SheetJS/printj.git" },
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/SheetJS/printj.git"
+	},
 	"scripts": {
 		"test": "make test",
+		"build": "make",
+		"lint": "make fullint",
 		"dtslint": "dtslint types"
 	},
 	"config": {
@@ -29,9 +43,18 @@
 			"pattern": "printj.js"
 		}
 	},
+	"alex": {
+		"allow": [
+			"period"
+		]
+	},
 	"homepage": "http://sheetjs.com/opensource",
 	"files": ["printj.js", "bin/printj.njs", "LICENSE", "README.md", "dist/*.js", "dist/*.map", "dist/LICENSE", "types/index.d.ts", "types/*.json"],
-	"bugs": { "url": "https://github.com/SheetJS/printj/issues" },
+	"bugs": {
+		"url": "https://github.com/SheetJS/printj/issues"
+	},
 	"license": "Apache-2.0",
-	"engines": { "node": ">=0.8" }
+	"engines": {
+		"node": ">=0.8"
+	}
 }

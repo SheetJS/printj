@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /* printj.js (C) 2016-present SheetJS -- http://sheetjs.com */
+/* eslint-env node */
 /* vim: set ts=2 ft=javascript: */
 /*jshint node:true, evil:true */
 var X = require("../"), argv = process.argv;
@@ -42,6 +43,7 @@ function parse_arg(arg/*:string*/)/*:any*/ {
 		case /*e*/ 101: return eval(m);
 		case /*s*/ 115: return m;
 	}
+	void p;
 	return arg;
 }
 
