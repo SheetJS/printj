@@ -264,10 +264,10 @@ Combining the various extensions yields the following regular expression:
 ```perl
 /%(?:
     %|                                  # literal %% (flags etc prohibited)
-    (\d+\$)?                            # positional parameter
+    ([1-9]\d*\$)?                       # positional parameter
     ([-+ 0\x23\x27]*)?                  # flags
-    (\d*|\*(?:\d+\$)?)                  # width
-    (?:\.(\d+|\*(?:\d+\$)?))?           # precision
+    ([1-9]\d*|\*(?:[1-9]\d*\$)?)?       # width
+    (?:\.(\d+|\*(?:[1-9]\d*\$)?))?      # precision
     (hh?|ll?|[LzjtqZIw])?               # length
     ([diouxXfFeEgGaAcCsSpnDUOmbByYJVT]) # conversion specifier
 )/x

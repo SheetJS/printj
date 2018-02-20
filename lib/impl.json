@@ -1,5 +1,7 @@
 [
 	"loop_char",
 	"loop_code",
+	"index_char",
+	"index_code",
 	"regex"
 ]

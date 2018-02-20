@@ -54,7 +54,7 @@ describe('correctness', function() {
 	IMPL.forEach(function(n,i) {
 		var impl = IMPLA[i];
 		it(n, function() {
-			PRINTF.forEach(function(v) {
+			for(var i = 0; i < 5; ++i) PRINTF.forEach(function(v) {
 				if(impl.sprintf.apply(impl, v[0]) != v[1]) {
 					if(isopera() && v[0][0].match(/^%.*[Aa]$/)) return;
 					console.log(v);
