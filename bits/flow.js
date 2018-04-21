@@ -10,6 +10,6 @@ declare class PRINTJModule {
 	_doit:(t:ParsedFmt, args:Args)=>string;
 	_tokenize:(fmt:string)=>ParsedFmt;
 };
-declare module "./" { declare var exports:PRINTJModule };
-declare module "../" { declare var exports:PRINTJModule };
+declare module "./" { declare module.exports:PRINTJModule };
+declare module "../" { declare module.exports:PRINTJModule };
 */
