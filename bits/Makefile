@@ -2,8 +2,8 @@ ifndef OUTDIR
 	OUTDIR=$(PWD)/lib
 endif
 
-JSFILES=$(wildcard *.js)
-LIBS=$(filter-out $(wildcard [0-9]*_*.js),$(wildcard *.js))
+JSFILES=$(wildcard *.js) $(wildcard *.mjs)
+LIBS=$(filter-out $(wildcard [0-9]*_*.js),$(JSFILES))
 
 OUTLIBS=$(patsubst %,$(OUTDIR)/%,$(LIBS))
 

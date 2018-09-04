@@ -35,7 +35,7 @@
 			/* boolean (extension) */
 			case /*Y*/  89:
 			case /*y*/ 121:
-				O = Boolean(arg) ? (alt ? "yes" : "true") : (alt ? "no" : "false");
+				O = (arg) ? (alt ? "yes" : "true") : (alt ? "no" : "false");
 				if(c == /*Y*/ 89) O = O.toUpperCase();
 				PREC_STR(O, prec)
 				WIDTH(O, width, flags)

@@ -1,0 +1,40 @@
+# printj (C) 2016-present SheetJS -- http://sheetjs.com
+SheetJS
+printj
+printf
+
+# printf-related terms
+16-bit
+32-bit
+52-bit
+64-bit
+base-10
+fmt
+
+# Third-party
+AltiVec
+FreeBSD
+glibc
+libc
+nodejs
+npm
+unicode
+
+# Other terms
+CommonJS
+NaN
+UTF-16
+accessor
+bitwise
+codepages
+conformant
+errno
+falsy
+runtime
+trigraphs
+truthy
+typeof
+valueOf
+variadic
+whitespace
+

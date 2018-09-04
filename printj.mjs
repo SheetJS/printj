@@ -2,42 +2,26 @@
 /* vim: set ts=2: */
 /*jshint sub:true, eqnull:true */
 /*exported PRINTJ */
-var PRINTJ;
-(function (factory) {
-	/*jshint ignore:start */
-	/*eslint-disable */
-	if(typeof DO_NOT_EXPORT_PRINTJ === 'undefined') {
-		if('object' === typeof exports) {
-			factory(exports);
-		} else if ('function' === typeof define && define.amd) {
-			define(function () {
-				var module = {};
-				factory(module);
-				return module;
-			});
-		} else {
-			factory(PRINTJ = {});
-		}
-	} else {
-		factory(PRINTJ = {});
-	}
-	/*eslint-enable */
-	/*jshint ignore:end */
-}(function(PRINTJ) {
+/*:: declare var DO_NOT_EXPORT_PRINTJ:?boolean; */
+/*:: declare function define(cb:()=>any):void; */
+
+var PRINTJ/*:PRINTJModule*/ = /*::(*/{}/*:: :any)*/;
 
 PRINTJ.version = '1.2.0';
 
-function tokenize(fmt) {
-	var out = [];
-	var start = 0;
+export const version = PRINTJ.version;
 
-	var i = 0;
-	var infmt = false;
-	var fmtparam = "", fmtflags = "", fmtwidth = "", fmtprec = "", fmtlen = "";
+function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
+	var out/*:ParsedFmt*/ = [];
+	var start/*:number*/ = 0;
 
-	var c = 0;
+	var i/*:number*/ = 0;
+	var infmt/*:boolean*/ = false;
+	var fmtparam/*:string*/ = "", fmtflags/*:string*/ = "", fmtwidth/*:string*/ = "", fmtprec/*:string*/ = "", fmtlen/*:string*/ = "";
 
-	var L = fmt.length;
+	var c/*:number*/ = 0;
+
+	var L/*:number*/ = fmt.length;
 
 	for(; i < L; ++i) {
 		c = fmt.charCodeAt(i);
@@ -150,35 +134,33 @@ function tokenize(fmt) {
 }
 
 //#define PAD_(x,c) (x >= 0 ? new Array(((x)|0) + 1).join((c)) : "")
-var padstr = {
+var padstr/*:{[s:string]:string}*/ = {
 	" ": "                                 ",
 	"0": "000000000000000000000000000000000",
 	"7": "777777777777777777777777777777777",
 	"f": "fffffffffffffffffffffffffffffffff"
 };
 
-/*global process:true, util:true, require:true */
-if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
-var u_inspect = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
+var u_inspect/*:(o:any)=>string*/ = JSON.stringify;
 
-function doit(t, args) {
-	var o = [];
-	var argidx = 0, idx = 0;
-	var Vnum = 0;
-	var pad = "";
-	for(var i = 0; i < t.length; ++i) {
-		var m = t[i], c = (m[0]).charCodeAt(0);
+function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
+	var o/*:Array<string>*/ = [];
+	var argidx/*:number*/ = 0, idx/*:number*/ = 0;
+	var Vnum/*:number*/ = 0;
+	var pad/*:string*/ = "";
+	for(var i/*:number*/ = 0; i < t.length; ++i) {
+		var m/*:ParsedEntry*/ = t[i], c/*:number*/ = (m[0]/*:string*/).charCodeAt(0);
 		/* m order: conv full param flags width prec length */
 
 		if(c === /*L*/ 76) { o.push(m[1]); continue; }
 		if(c === /*%*/ 37) { o.push("%"); continue; }
 
-		var O = "";
-		var isnum = 0, radix = 10, bytes = 4, sign = false;
+		var O/*:string*/ = "";
+		var isnum/*:number*/ = 0, radix/*:number*/ = 10, bytes/*:number*/ = 4, sign/*:boolean*/ = false;
 
 		/* flags */
-		var flags = m[3]||"";
-		var alt = flags.indexOf("#") > -1;
+		var flags/*:string*/ = m[3]||"";
+		var alt/*:boolean*/ = flags.indexOf("#") > -1;
 
 		/* position */
 		if(m[2]) argidx = parseInt(m[2])-1;
@@ -195,10 +177,10 @@ function doit(t, args) {
 		if(!m[2]) argidx = idx++;
 
 		/* grab argument */
-		var arg = args[argidx];
+		var arg/*:any*/ = args[argidx];
 
 		/* grab length */
-		var len = m[6] || "";
+		var len/*:string*/ = m[6] || "";
 
 		switch(c) {
 			/* str cCsS */
@@ -216,11 +198,11 @@ function doit(t, args) {
 			case /*c*/  99:
 				switch(typeof arg) {
 					case "number":
-						var cc = arg;
+						var cc/*:number*/ = arg;
 						if(c == 67 || len.charCodeAt(0) === /*l*/ 108) {  cc &= 0xFFFFFFFF; O = String.fromCharCode( cc); }
 						else {  cc &= 0xFF; O = String.fromCharCode( cc); }
 						break;
-					case "string": O = arg.charAt(0); break;
+					case "string": O = /*::(*/arg/*:: :string)*/.charAt(0); break;
 					default: O = String(arg).charAt(0);
 				}
 				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? padstr["0"].substr(0, width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? padstr[" "].substr(0, width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
@@ -284,7 +266,7 @@ function doit(t, args) {
 
 			/* store length in the `len` key */
 			case /*n*/ 110:
-				if(arg) { arg.len=0; for(var oo = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
+				if(arg) { arg.len=0; for(var oo/*:number*/ = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
 				continue;
 
 			/* process error */
@@ -385,8 +367,8 @@ function doit(t, args) {
 					O = "1" + (21 - O.length >= 0 ? padstr[ "7"].substr(0,21 - O.length) : "") + O;
 				} else {
 					Vnum = (-Vnum) % 1e16;
-					var d1 = [1,8,4,4,6,7,4,4,0,7,3,7,0,9,5,5,1,6,1,6];
-					var di = d1.length - 1;
+					var d1/*:Array<number>*/ = [1,8,4,4,6,7,4,4,0,7,3,7,0,9,5,5,1,6,1,6];
+					var di/*:number*/ = d1.length - 1;
 					while(Vnum > 0) {
 						if((d1[di] -= (Vnum % 10)) < 0) { d1[di] += 10; d1[di-1]--; }
 						--di; Vnum = Math.floor(Vnum / 10);
@@ -446,14 +428,14 @@ function doit(t, args) {
 			Vnum = Number(arg);
 			if(arg === null) Vnum = 0/0;
 			if(len == "L") bytes = 12;
-			var isf = isFinite(Vnum);
+			var isf/*:boolean*/ = isFinite(Vnum);
 			if(!isf) { /* Infinity or NaN */
 				if(Vnum < 0) O = "-";
 				else if(flags.indexOf("+") > -1) O = "+";
 				else if(flags.indexOf(" ") > -1) O = " ";
 				O += (isNaN(Vnum)) ? "nan" : "inf";
 			} else {
-				var E = 0;
+				var E/*:number*/ = 0;
 
 				if(prec == -1 && isnum != 4) prec = 6;
 
@@ -467,7 +449,7 @@ function doit(t, args) {
 				}
 
 				/* sign: workaround for negative zero */
-				var sg = (Vnum < 0 || 1/Vnum == -Infinity) ? "-" : "";
+				var sg/*:string*/ = (Vnum < 0 || 1/Vnum == -Infinity) ? "-" : "";
 				if(Vnum < 0) Vnum = -Vnum;
 
 				switch(isnum) {
@@ -501,7 +483,7 @@ function doit(t, args) {
 						if(Vnum===0){O= "0x0"+((alt||prec>0)?"."+(prec >= 0 ? padstr["0"].substr(0,prec) : ""):"")+"p+0"; break;}
 						O = Vnum.toString(16);
 						/* First char 0-9 */
-						var ac = O.charCodeAt(0);
+						var ac/*:number*/ = O.charCodeAt(0);
 						if(ac == 48) {
 							ac = 2; E = -4; Vnum *= 16;
 							while(O.charCodeAt(ac++) == 48) { E -= 4; Vnum *= 16; }
@@ -509,11 +491,11 @@ function doit(t, args) {
 							ac = O.charCodeAt(0);
 						}
 
-						var ai = O.indexOf(".");
+						var ai/*:number*/ = O.indexOf(".");
 						if(O.indexOf("(") > -1) {
 							/* IE exponential form */
-							var am = O.match(/\(e(.*)\)/);
-							var ae = am ? (+am[1]) : 0;
+							var am/*:?Array<any>*/ = O.match(/\(e(.*)\)/);
+							var ae/*:number*/ = am ? (+am[1]) : 0;
 							E += 4 * ae; Vnum /= Math.pow(16, ae);
 						} else if(ai > 1) {
 							E += 4 * (ai - 1); Vnum /= Math.pow(16, ai - 1);
@@ -538,7 +520,7 @@ function doit(t, args) {
 						O = Vnum.toString(16);
 						if(O.length > 1) {
 							if(O.length > prec+2 && O.charCodeAt(prec+2) >= 56) {
-								var _f = O.charCodeAt(0) == 102;
+								var _f/*:boolean*/ = O.charCodeAt(0) == 102;
 								O = (Vnum + 8 * Math.pow(16, -prec-1)).toString(16);
 								if(_f && O.charCodeAt(0) == 49) E += 4;
 							}
@@ -588,18 +570,13 @@ function doit(t, args) {
 	return o.join("");
 }
 
-function vsprintf(fmt, args) { return doit(tokenize(fmt), args); }
+function vsprintf(fmt/*:string*/, args/*:Args*/)/*:string*/ { return doit(tokenize(fmt), args); }
 
-function sprintf() {
-	var args = new Array(arguments.length - 1);
-	for(var i = 0; i < args.length; ++i) args[i] = arguments[i+1];
+function sprintf(/*:: ...argz*/)/*:string*/ {
+	var args/*:Array<any>*/ = new Array(arguments.length - 1);
+	for(var i/*:number*/ = 0; i < args.length; ++i) args[i] = arguments[i+1];
 	return doit(tokenize(arguments[0]), args);
 }
 
-PRINTJ.sprintf = sprintf;
-PRINTJ.vsprintf = vsprintf;
-PRINTJ._doit = doit;
-PRINTJ._tokenize = tokenize;
-
-}));
+export { sprintf, vsprintf };
 

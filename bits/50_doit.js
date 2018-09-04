@@ -1,10 +1,13 @@
 #include "30_ctypes.js"
 #include "40_macros.js"
+#ifdef USE_ESM
+var u_inspect/*:(o:any)=>string*/ = JSON.stringify;
+#else
 /*:: var util = require('util'); */
 /*global process:true, util:true, require:true */
 if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
 var u_inspect/*:(o:any)=>string*/ = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
-
+#endif
 
 function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 	var o/*:Array<string>*/ = [];

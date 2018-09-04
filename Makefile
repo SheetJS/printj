@@ -9,6 +9,7 @@ ULIB=$(shell echo $(LIB) | tr a-z A-Z)
 DEPS=$(sort $(wildcard bits/*.js))
 TARGET=$(LIB).js
 FLOWTARGET=$(LIB).flow.js
+MJSTARGET=$(LIB).mjs
 FLOWTGTS=$(TARGET) $(AUXTARGETS)
 CLOSURE=/usr/local/lib/node_modules/google-closure-compiler/compiler.jar
 
@@ -26,6 +27,7 @@ $(FLOWTGTS): %.js : %.flow.js
 
 $(FLOWTARGET): $(DEPS) lib
 	cp lib/$(REQS).js $(FLOWTARGET)
+	cp lib/$(REQS).mjs $(MJSTARGET)
 
 bits/01_version.js: package.json
 	echo "$(ULIB).version = '"`grep version package.json | awk '{gsub(/[^0-9a-z\.-]/,"",$$2); print $$2}'`"';" > $@
@@ -75,7 +77,7 @@ fullint: lint old-lint tslint flow mdlint ## Run all checks
 
 .PHONY: lint
 lint: $(TARGET) ## Run eslint checks
-	@eslint --ext .js,.njs,.json,.html,.htm $(TARGET) $(AUXTARGETS) $(CMDS) $(HTMLLINT) package.json bower.json
+	@eslint --ext .js,.njs,.json,.html,.htm $(TARGET) $(AUXTARGETS) $(CMDS) $(HTMLLINT) package.json
 	if [ -e $(CLOSURE) ]; then java -jar $(CLOSURE) $(FLOWTARGET) --jscomp_warning=reportUnknownTypes >/dev/null; fi
 
 .PHONY: old-lint

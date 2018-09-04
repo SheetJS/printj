@@ -1,1 +1,1 @@
-PRINTJ.version = '1.1.2';
+PRINTJ.version = '1.2.0';

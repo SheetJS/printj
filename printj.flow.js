@@ -4,6 +4,7 @@
 /*exported PRINTJ */
 /*:: declare var DO_NOT_EXPORT_PRINTJ:?boolean; */
 /*:: declare function define(cb:()=>any):void; */
+
 var PRINTJ/*:PRINTJModule*/;
 (function (factory/*:(a:any)=>void*/)/*:void*/ {
 	/*jshint ignore:start */
@@ -27,7 +28,7 @@ var PRINTJ/*:PRINTJModule*/;
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 
-PRINTJ.version = '1.1.2';
+PRINTJ.version = '1.2.0';
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	var out/*:ParsedFmt*/ = [];
@@ -311,7 +312,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 			/* boolean (extension) */
 			case /*Y*/  89:
 			case /*y*/ 121:
-				O = Boolean(arg) ? (alt ? "yes" : "true") : (alt ? "no" : "false");
+				O = (arg) ? (alt ? "yes" : "true") : (alt ? "no" : "false");
 				if(c == /*Y*/ 89) O = O.toUpperCase();
 				if( prec >= 0) O = O.substr(0,  prec);
 				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? padstr["0"].substr(0, width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? padstr[" "].substr(0, width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }

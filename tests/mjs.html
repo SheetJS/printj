@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!-- printj.js (C) 2016-present SheetJS http://sheetjs.com -->
+<!-- vim: set ts=2: -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>PRINTJ Live Demo</title>
+<style>
+table, td {
+	border: 1px dotted black;
+	text-align: left;
+}
+</style>
+</head>
+<body>
+<b>PRINTJ ESM Live Demo</b><br />
+<a href="https://git.io/printj">Source Code Repo</a><br />
+<a href="https://git.io/printj_issues">Issues?  Something look weird?  Click here and report an issue</a><br />
+<br />
+<pre>
+usage: import { sprintf as printf } from './printj.mjs';
+
+This implementation supports the full POSIX set of conversions.  Consult the enclosed README for full details.
+</pre>
+<div><a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/printf.html">POSIX documentation</a></div><br />
+<table id="data">
+<tr><th>example</th><th>result</th></tr>
+</table>
+<script type="module">
+/* eslint-env browser */
+/*global PRINTJ */
+import { sprintf as printf } from './printj.mjs';
+var table = document.getElementById("data");
+var ex = [
+	'printf("|Hello %s|", "SheetJS")',
+	'printf("|%1$d %1$o %1$u %1$x %1$X|", 1234)',
+	'printf("|%1$d %1$o %1$u %1$x %1$X|", -1234)',
+	'printf("|%1$d %1$o %1$u %1$x %1$X %1$lld|", 2813308004)',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", 1.2)',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", Math.PI)',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", Math.LOG2E)',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", -Math.LOG10E)',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", Infinity)',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", -0)',
+	'printf("|%012s|", "SheetJS")',
+	'printf("|%-12s|", "SheetJS")',
+	'printf("|%1$f %1$F %1$e %1$E %1$g %1$G %1$a %1$A|", 1.4142E69)',
+	'printf("%%")'
+];
+window.onload = function() {
+	printf("Hello %s", "world");
+	ex.forEach(function(m) {
+		var row = table.insertRow(table.rows.length);
+		var c1 = row.insertCell(0); c1.innerHTML = "<pre>" + m + "</pre>";
+		var c2 = row.insertCell(1); c2.innerHTML = "<pre>" + eval(m) + "</pre>";
+	});
+};
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36810333-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</body>
+</html>
+
