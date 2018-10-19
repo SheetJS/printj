@@ -4,7 +4,7 @@
         "lib": [ "es5", "dom" ],
         "noImplicitAny": true,
         "noImplicitThis": true,
-        "strictNullChecks": false,
+        "strictNullChecks": true,
         "baseUrl": ".",
         "paths": { "printj": ["."] },
         "types": [],

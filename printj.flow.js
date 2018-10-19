@@ -28,7 +28,7 @@ var PRINTJ/*:PRINTJModule*/;
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 
-PRINTJ.version = '1.2.0';
+PRINTJ.version = '1.2.1';
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	var out/*:ParsedFmt*/ = [];
@@ -152,14 +152,6 @@ function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	return out;
 }
 
-//#define PAD_(x,c) (x >= 0 ? new Array(((x)|0) + 1).join((c)) : "")
-var padstr/*:{[s:string]:string}*/ = {
-	" ": "                                 ",
-	"0": "000000000000000000000000000000000",
-	"7": "777777777777777777777777777777777",
-	"f": "fffffffffffffffffffffffffffffffff"
-};
-
 /*:: var util = require('util'); */
 /*global process:true, util:true, require:true */
 if(typeof process !== 'undefined' && !!process.versions && !!process.versions.node) util=require("util");
@@ -212,7 +204,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 				/* only valid flag is "-" for left justification */
 				O = String(arg);
 				if( prec >= 0) O = O.substr(0,  prec);
-				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? padstr["0"].substr(0, width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? padstr[" "].substr(0, width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
+				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? "0".repeat( width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? " ".repeat( width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
 				break;
 
 			/* first char of string or convert */
@@ -227,7 +219,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 					case "string": O = /*::(*/arg/*:: :string)*/.charAt(0); break;
 					default: O = String(arg).charAt(0);
 				}
-				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? padstr["0"].substr(0, width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? padstr[" "].substr(0, width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
+				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? "0".repeat( width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? " ".repeat( width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
 				break;
 
 			/* int diDuUoOxXbB */
@@ -315,7 +307,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 				O = (arg) ? (alt ? "yes" : "true") : (alt ? "no" : "false");
 				if(c == /*Y*/ 89) O = O.toUpperCase();
 				if( prec >= 0) O = O.substr(0,  prec);
-				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? padstr["0"].substr(0, width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? padstr[" "].substr(0, width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
+				if( width > O.length || - width > O.length) { if(( flags.indexOf("-") == -1 ||  width < 0) &&  flags.indexOf("0") != -1) { pad = ( width - O.length >= 0 ? "0".repeat( width - O.length) : ""); O = pad + O; } else { pad = ( width - O.length >= 0 ? " ".repeat( width - O.length) : ""); O =  flags.indexOf("-") > -1 ? O + pad : pad + O; } }
 				break;
 
 		}
@@ -377,16 +369,16 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 				if(radix == 16 || radix == -16) {
 					O = (Vnum>>>0).toString(16);
 					Vnum = Math.floor((Vnum - (Vnum >>> 0)) / Math.pow(2,32));
-					O = (Vnum>>>0).toString(16) + (8 - O.length >= 0 ? padstr[ "0"].substr(0,8 - O.length) : "") + O;
-					O = (16 - O.length >= 0 ? padstr[ "f"].substr(0,16 - O.length) : "") + O;
+					O = (Vnum>>>0).toString(16) + (8 - O.length >= 0 ?  "0".repeat(8 - O.length) : "") + O;
+					O = (16 - O.length >= 0 ?  "f".repeat(16 - O.length) : "") + O;
 					if(radix == 16) O = O.toUpperCase();
 				} else if(radix == 8) {
 					O = (Vnum>>>0).toString(8);
-					O = (10 - O.length >= 0 ? padstr[ "0"].substr(0,10 - O.length) : "") + O;
+					O = (10 - O.length >= 0 ?  "0".repeat(10 - O.length) : "") + O;
 					Vnum = Math.floor((Vnum - ((Vnum >>> 0)&0x3FFFFFFF)) / Math.pow(2,30));
 					O = (Vnum>>>0).toString(8) + O.substr(O.length - 10);
 					O = O.substr(O.length - 20);
-					O = "1" + (21 - O.length >= 0 ? padstr[ "7"].substr(0,21 - O.length) : "") + O;
+					O = "1" + (21 - O.length >= 0 ?  "7".repeat(21 - O.length) : "") + O;
 				} else {
 					Vnum = (-Vnum) % 1e16;
 					var d1/*:Array<number>*/ = [1,8,4,4,6,7,4,4,0,7,3,7,0,9,5,5,1,6,1,6];
@@ -407,8 +399,8 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 			if(prec ===0 && O == "0" && !(radix == 8 && alt)) O = ""; /* bail out */
 			else {
 				if(O.length < prec + (O.substr(0,1) == "-" ? 1 : 0)) {
-					if(O.substr(0,1) != "-") O = (prec - O.length >= 0 ? padstr[ "0"].substr(0,prec - O.length) : "") + O;
-					else O = O.substr(0,1) + (prec + 1 - O.length >= 0 ? padstr[ "0"].substr(0,prec + 1 - O.length) : "") + O.substr(1);
+					if(O.substr(0,1) != "-") O = (prec - O.length >= 0 ?  "0".repeat(prec - O.length) : "") + O;
+					else O = O.substr(0,1) + (prec + 1 - O.length >= 0 ?  "0".repeat(prec + 1 - O.length) : "") + O.substr(1);
 				}
 
 				/* add prefix for # form */
@@ -429,10 +421,10 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 			if(width > 0) {
 				if(O.length < width) {
 					if(flags.indexOf("-") > -1) {
-						O = O + ((width - O.length) >= 0 ? padstr[ " "].substr(0,(width - O.length)) : "");
+						O = O + ((width - O.length) >= 0 ?  " ".repeat((width - O.length)) : "");
 					} else if(flags.indexOf("0") > -1 && prec < 0 && O.length > 0) {
-						if(prec > O.length) O = ((prec - O.length) >= 0 ? padstr[ "0"].substr(0,(prec - O.length)) : "") + O;
-						pad = ((width - O.length) >= 0 ? padstr[ (prec > 0 ? " " : "0")].substr(0,(width - O.length)) : "");
+						if(prec > O.length) O = ((prec - O.length) >= 0 ?  "0".repeat((prec - O.length)) : "") + O;
+						pad = ((width - O.length) >= 0 ?  (prec > 0 ? " " : "0").repeat((width - O.length)) : "");
 						if(O.charCodeAt(0) < 48) {
 							if(O.charAt(2).toLowerCase() == "x") O = O.substr(0,3) + pad + O.substring(3);
 							else O = O.substr(0,1) + pad + O.substring(1);
@@ -440,7 +432,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 						else if(O.charAt(1).toLowerCase() == "x") O = O.substr(0,2) + pad + O.substring(2);
 						else O = pad + O;
 					} else {
-						O = ((width - O.length) >= 0 ? padstr[ " "].substr(0,(width - O.length)) : "") + O;
+						O = ((width - O.length) >= 0 ?  " ".repeat((width - O.length)) : "") + O;
 					}
 				}
 			}
@@ -487,8 +479,8 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 						O = Vnum.toExponential(20);
 						E = +O.substr(O.indexOf("e")+1);
 						O = O.charAt(0) + O.substr(2,O.indexOf("e")-2);
-						O = O + (E - O.length + 1 >= 0 ? padstr[ "0"].substr(0,E - O.length + 1) : "");
-						if(alt || (prec > 0 && isnum !== 11)) O = O + "." + (prec >= 0 ? padstr[ "0"].substr(0,prec) : "");
+						O = O + (E - O.length + 1 >= 0 ?  "0".repeat(E - O.length + 1) : "");
+						if(alt || (prec > 0 && isnum !== 11)) O = O + "." + (prec >= 0 ?  "0".repeat(prec) : "");
 						break;
 
 					/* e/E exponential */
@@ -502,7 +494,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 					/* a/A hex */
 					case 4:
-						if(Vnum===0){O= "0x0"+((alt||prec>0)?"."+(prec >= 0 ? padstr["0"].substr(0,prec) : ""):"")+"p+0"; break;}
+						if(Vnum===0){O= "0x0"+((alt||prec>0)?"."+(prec >= 0 ? "0".repeat(prec) : ""):"")+"p+0"; break;}
 						O = Vnum.toString(16);
 						/* First char 0-9 */
 						var ac/*:number*/ = O.charCodeAt(0);
@@ -549,11 +541,11 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 							if(prec > 0) {
 								O = O.substr(0, prec + 2);
 								if(O.length < prec + 2) {
-									if(O.charCodeAt(0) < 48) O = O.charAt(0) + ((prec + 2 - O.length) >= 0 ? padstr[ "0"].substr(0,(prec + 2 - O.length)) : "") + O.substr(1);
-									else O += ((prec + 2 - O.length) >= 0 ? padstr[ "0"].substr(0,(prec + 2 - O.length)) : "");
+									if(O.charCodeAt(0) < 48) O = O.charAt(0) + ((prec + 2 - O.length) >= 0 ?  "0".repeat((prec + 2 - O.length)) : "") + O.substr(1);
+									else O += ((prec + 2 - O.length) >= 0 ?  "0".repeat((prec + 2 - O.length)) : "");
 								}
 							} else if(prec === 0) O = O.charAt(0) + (alt ? "." : "");
-						} else if(prec > 0) O = O + "." + (prec >= 0 ? padstr["0"].substr(0,prec) : "");
+						} else if(prec > 0) O = O + "." + (prec >= 0 ? "0".repeat(prec) : "");
 						else if(alt) O = O + ".";
 						O = "0x" + O + "p" + (E>=0 ? "+" + E : E);
 						break;
@@ -570,9 +562,9 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 			/* width */
 			if(width > O.length) {
 				if(flags.indexOf("-") > -1) {
-					O = O + ((width - O.length) >= 0 ? padstr[ " "].substr(0,(width - O.length)) : "");
+					O = O + ((width - O.length) >= 0 ?  " ".repeat((width - O.length)) : "");
 				} else if(flags.indexOf("0") > -1 && O.length > 0 && isf) {
-					pad = ((width - O.length) >= 0 ? padstr[ "0"].substr(0,(width - O.length)) : "");
+					pad = ((width - O.length) >= 0 ?  "0".repeat((width - O.length)) : "");
 					if(O.charCodeAt(0) < 48) {
 						if(O.charAt(2).toLowerCase() == "x") O = O.substr(0,3) + pad + O.substring(3);
 						else O = O.substr(0,1) + pad + O.substring(1);
@@ -580,7 +572,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 					else if(O.charAt(1).toLowerCase() == "x") O = O.substr(0,2) + pad + O.substring(2);
 					else O = pad + O;
 				} else {
-					O = ((width - O.length) >= 0 ? padstr[ " "].substr(0,(width - O.length)) : "") + O;
+					O = ((width - O.length) >= 0 ?  " ".repeat((width - O.length)) : "") + O;
 				}
 			}
 			if(c < 96) O = O.toUpperCase();

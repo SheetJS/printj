@@ -190,4 +190,7 @@ describe('special cases', function() {
 		assert.equal(sprintf("|%*.*s|", 4,  0, "sheetjs"), "|    |");
 		assert.equal(sprintf("|%*.*s|", 4, -1, "sheetjs"), "|sheetjs|");
 	});
+	it('handles long strings', function() {
+		for(var i = 10; i <= 1000; i+= 10) assert.equal(sprintf("%" + i + "s", "abc").length, i);
+	});
 });
