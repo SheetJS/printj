@@ -10,6 +10,7 @@ var PRINTJ/*:PRINTJModule*/ = /*::(*/{}/*:: :any)*/;
 export const version = PRINTJ.version;
 #else
 var PRINTJ/*:PRINTJModule*/;
+#include "05_polyfill.js"
 (function (factory/*:(a:any)=>void*/)/*:void*/ {
 	/*jshint ignore:start */
 	/*eslint-disable */

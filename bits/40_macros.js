@@ -1,12 +1,5 @@
 #define isnan isNaN
-//#define PAD_(x,c) (x >= 0 ? new Array(((x)|0) + 1).join((c)) : "")
-var padstr/*:{[s:string]:string}*/ = {
-	" ": "                                 ",
-	"0": "000000000000000000000000000000000",
-	"7": "777777777777777777777777777777777",
-	"f": "fffffffffffffffffffffffffffffffff"
-};
-#define PAD_(x,c) (x >= 0 ? padstr[c].substr(0,x) : "")
+#define PAD_(x,c) (x >= 0 ? c.repeat(x) : "")
 #ifdef DO_NOT_INLINE
 function pads(x/*:number*/, c/*:string*/)/*:string*/ { return PAD_(x,c); }
 #define PADS(x,c) pads(x,c)
