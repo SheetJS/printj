@@ -3,6 +3,7 @@
 /* eslint-env node */
 /* vim: set ts=2 ft=javascript: */
 /*jshint node:true, evil:true */
+require("../shim");
 var X = require("../"), argv = process.argv;
 
 function help() {

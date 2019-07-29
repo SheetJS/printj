@@ -3,6 +3,7 @@ var X;
 var IMPLS = {}, IMPLA = [], IMPL = [];
 if(typeof require !== 'undefined') {
 	assert = require('assert');
+	require('./shim');
 	X=require('./');
 	IMPL = require("./lib/impl.json");
 	IMPL.forEach(function(impl, i) { IMPLS[impl] = IMPLA[i] = require("./lib/" + impl); });

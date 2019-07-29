@@ -7,14 +7,15 @@ compliance, performance and IE6+ support.
 PRINTJ.sprintf("Hello %s!", "World");
 ```
 
-A self-contained specification of the printf format string is included below in [this README](#printf-format-string-specification), as well as a summary of the
+A self-contained specification of the printf format string is included below in
+[this README](#printf-format-string-specification), as well as a summary of the
 [support against various printf implementations](#support-summary)
 
 
 ## Table of Contents
 
 <details>
-	<summary><b>Table of Contents</b> (click to show)</summary>
+  <summary><b>Table of Contents</b> (click to show)</summary>
 
 <!-- toc -->
 
@@ -162,8 +163,6 @@ granted by the Apache 2.0 license are reserved by the Original Author.
 [![NPM Downloads](https://img.shields.io/npm/dt/printj.svg)](https://npmjs.org/package/printj)
 
 [![Dependencies Status](https://david-dm.org/sheetjs/printj/status.svg)](https://david-dm.org/sheetjs/printj)
-
-[![ghit.me](https://ghit.me/badge.svg?repo=sheetjs/printj)](https://ghit.me/repo/sheetjs/printj)
 
 [![Analytics](https://ga-beacon.appspot.com/UA-36810333-1/SheetJS/printj?pixel)](https://github.com/SheetJS/printj)
 
@@ -595,7 +594,7 @@ lengths exceeding 32 bits, `Math.round` is appropriate.
 |------|---------------------------|-------------------------------------------|
 | 8    | `V & 0xFF`                | `V &= 0xFF; if(V > 0x7F) V-= 0x100`       |
 | 16   | `V & 0xFFFF`              | `V &= 0xFFFF; if(V > 0x7FFF) V-= 0x10000` |
-| 32   | `V >>> 0`                 | `V | 0`                                   |
+| 32   | `V >>> 0`                 | `V \| 0`                                  |
 | 64   | `Math.abs(Math.round(V))` | `Math.round(V)`                           |
 
 ## Length Specifiers for Integer Conversions
@@ -900,7 +899,7 @@ In all forms other than `"%m"`, an argument will be processed as follows:
 - If the `errno` field is set, emit "Error number " followed by the errno
 - Otherwise emit "Error " followed by the error interpreted as a String
 
-```
+```js
 var x = new Error("sheetjs");
 x.errno = 69; x.toString = function() { return "SHEETJS"; };
 printf("|%#m|", x);      // |sheetjs|
@@ -962,7 +961,7 @@ Width, precision and other flags are ignored.
 Under the "T" conversion, the result of `typeof arg` is rendered.  If the `#`
 flag is specified, the type is derived from `Object.prototype.toString`:
 
-```
+```js
 printf("%1$T %1$#T", 1);          // 'number Number'
 printf("%1$T %1$#T", 'foo');      // 'string String'
 printf("%1$T %1$#T", [1,2,3]);    // 'object Array'
@@ -972,7 +971,7 @@ printf("%1$T %1$#T", undefined);  // 'undefined Undefined'
 
 Under the "V" conversion, the result of `arg.valueOf()` is rendered:
 
-```
+```js
 var _f = function() { return "f"; };
 var _3 = function() { return 3; };
 printf("%1$d %1$s %1$V", {toString:_f});               // '0 f f'

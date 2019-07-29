@@ -25,7 +25,7 @@ var PRINTJ;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '1.2.1';
+PRINTJ.version = '1.2.2';
 
 function tokenize(fmt) {
 	var out = [];

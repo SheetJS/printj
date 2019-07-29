@@ -7,7 +7,7 @@
 
 var PRINTJ/*:PRINTJModule*/ = /*::(*/{}/*:: :any)*/;
 
-PRINTJ.version = '1.2.1';
+PRINTJ.version = '1.2.2';
 
 export const version = PRINTJ.version;
 
