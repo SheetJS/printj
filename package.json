@@ -13,7 +13,7 @@
 		"printj": "./bin/printj.njs"
 	},
 	"main": "./printj",
-	"module": "./print.mjs",
+	"module": "./printj.mjs",
 	"types": "types",
 	"browser": {
 		"process": false,
