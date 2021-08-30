@@ -11,7 +11,8 @@
 
 			/* store length in the `len` key */
 			case /*n*/ 110:
-				if(arg) { arg.len=0; for(var oo/*:number*/ = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
+				if(arg) { arg.len = o.length; }
+				//if(arg) { arg.len=0; for(var oo/*:number*/ = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
 				continue;
 
 			/* process error */

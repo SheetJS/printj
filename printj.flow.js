@@ -28,9 +28,12 @@ var PRINTJ/*:PRINTJModule*/;
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 
-PRINTJ.version = '1.2.3';
+PRINTJ.version = '1.3.0';
+
+var tcache = {};
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
+	if(tcache[fmt]) return tcache[fmt];
 	var out/*:ParsedFmt*/ = [];
 	var start/*:number*/ = 0;
 
@@ -149,7 +152,7 @@ function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	}
 
 	if(start < fmt.length) out.push(["L", fmt.substring(start)]);
-	return out;
+	return (tcache[fmt] = out);
 }
 
 /*:: var util = require('util'); */
@@ -158,7 +161,8 @@ if(typeof process !== 'undefined' && !!process.versions && !!process.versions.no
 var u_inspect/*:(o:any)=>string*/ = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
 
 function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
-	var o/*:Array<string>*/ = [];
+	//var o/*:Array<string>*/ = [];
+	var o = "";
 	var argidx/*:number*/ = 0, idx/*:number*/ = 0;
 	var Vnum/*:number*/ = 0;
 	var pad/*:string*/ = "";
@@ -166,26 +170,26 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 		var m/*:ParsedEntry*/ = t[i], c/*:number*/ = (m[0]/*:string*/).charCodeAt(0);
 		/* m order: conv full param flags width prec length */
 
-		if(c === /*L*/ 76) { o.push(m[1]); continue; }
-		if(c === /*%*/ 37) { o.push("%"); continue; }
+		if(c === /*L*/ 76) { o += /*o.push*/(m[1]); continue; }
+		if(c === /*%*/ 37) { o += /*o.push*/("%"); continue; }
 
 		var O/*:string*/ = "";
 		var isnum/*:number*/ = 0, radix/*:number*/ = 10, bytes/*:number*/ = 4, sign/*:boolean*/ = false;
 
 		/* flags */
-		var flags/*:string*/ = m[3]||"";
+		var flags/*:string*/ = m[3]/*||""*/;
 		var alt/*:boolean*/ = flags.indexOf("#") > -1;
 
 		/* position */
-		if(m[2]) argidx = parseInt(m[2])-1;
+		if(m[2]) argidx = parseInt(m[2], 10)-1;
 		/* %m special case */
-		else if(c === /*m*/ 109 && !alt) { o.push("Success"); continue; }
+		else if(c === /*m*/ 109 && !alt) { o += /*.push*/("Success"); continue; }
 
 		/* grab width */
-		var width =  0; if(m[ 4] != null && m[ 4].length > 0) { if(m[ 4].charAt(0) !== '*') width = parseInt(m[ 4], 10); else if(m[ 4].length === 1) width = args[idx++]; else width = args[parseInt(m[ 4].substr(1), 10)-1]; }
+		var width =  0; if( m[ 4].length > 0) { if(m[ 4].charAt(0) !== '*') width = parseInt(m[ 4], 10); else if(m[ 4].length === 1) width = args[idx++]; else width = args[parseInt(m[ 4].substr(1), 10)-1]; }
 
 		/* grab precision */
-		var prec =  -1; if(m[ 5] != null && m[ 5].length > 0) { if(m[ 5].charAt(0) !== '*') prec = parseInt(m[ 5], 10); else if(m[ 5].length === 1) prec = args[idx++]; else prec = args[parseInt(m[ 5].substr(1), 10)-1]; }
+		var prec =  -1; if( m[ 5].length > 0) { if(m[ 5].charAt(0) !== '*') prec = parseInt(m[ 5], 10); else if(m[ 5].length === 1) prec = args[idx++]; else prec = args[parseInt(m[ 5].substr(1), 10)-1]; }
 
 		/* position not specified */
 		if(!m[2]) argidx = idx++;
@@ -194,7 +198,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 		var arg/*:any*/ = args[argidx];
 
 		/* grab length */
-		var len/*:string*/ = m[6] || "";
+		var len/*:string*/ = m[6]/* || ""*/;
 
 		switch(c) {
 			/* str cCsS */
@@ -280,7 +284,8 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 			/* store length in the `len` key */
 			case /*n*/ 110:
-				if(arg) { arg.len=0; for(var oo/*:number*/ = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
+				if(arg) { arg.len = o.length; }
+				//if(arg) { arg.len=0; for(var oo/*:number*/ = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
 				continue;
 
 			/* process error */
@@ -579,9 +584,9 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 
 		}
 
-		o.push(O);
+		o += /*.push*/(O);
 	}
-	return o.join("");
+	return o/*.join("")*/;
 }
 
 function vsprintf(fmt/*:string*/, args/*:Args*/)/*:string*/ { return doit(tokenize(fmt), args); }

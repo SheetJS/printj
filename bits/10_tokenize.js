@@ -4,8 +4,11 @@
 #define GETCHAR c = fmt.charCodeAt(i);
 #endif
 
+var tcache = {};
+
 #define DRAIN(idx) if(start < idx) out.push(["L", fmt.substring(start, idx)]);
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
+	if(tcache[fmt]) return tcache[fmt];
 	var out/*:ParsedFmt*/ = [];
 	var start/*:number*/ = 0;
 
@@ -16,7 +19,7 @@ function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 		DRAIN(m.index)
 		start = m.index + m[0].length;
 		if(m[0] === "%%") out.push(["%","%"]);
-		else out.push([m[6], m[0], m[1], m[2], m[3], m[4], m[5]]);
+		else out.push([m[6], m[0]||"", m[1]||"", m[2]||"", m[3]||"", m[4]||"", m[5]||""]);
 	}
 
 #else /* NOT USE_REGEX */
@@ -74,5 +77,5 @@ function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 #endif /* USE_REGEX */
 
 	if(start < fmt.length) out.push(["L", fmt.substring(start)]);
-	return out;
+	return (tcache[fmt] = out);
 }

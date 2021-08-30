@@ -10,7 +10,8 @@ var u_inspect/*:(o:any)=>string*/ = (typeof util != 'undefined') ? util.inspect 
 #endif
 
 function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
-	var o/*:Array<string>*/ = [];
+	//var o/*:Array<string>*/ = [];
+	var o = "";
 	var argidx/*:number*/ = 0, idx/*:number*/ = 0;
 	var Vnum/*:number*/ = 0;
 	var pad/*:string*/ = "";
@@ -18,24 +19,24 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 		var m/*:ParsedEntry*/ = t[i], c/*:number*/ = (m[0]/*:string*/).charCodeAt(0);
 		/* m order: conv full param flags width prec length */
 
-		if(c === /*L*/ 76) { o.push(m[1]); continue; }
-		if(c === /*%*/ 37) { o.push("%"); continue; }
+		if(c === /*L*/ 76) { o += /*o.push*/(m[1]); continue; }
+		if(c === /*%*/ 37) { o += /*o.push*/("%"); continue; }
 
 		var O/*:string*/ = "";
 		var isnum/*:number*/ = 0, radix/*:number*/ = 10, bytes/*:number*/ = SIZEOF_INT, sign/*:boolean*/ = false;
 
 		/* flags */
-		var flags/*:string*/ = m[IDX_FLAGS]||"";
+		var flags/*:string*/ = m[IDX_FLAGS]/*||""*/;
 		var alt/*:boolean*/ = flags.indexOf("#") > -1;
 
 		/* position */
-		if(m[IDX_POS]) argidx = parseInt(m[IDX_POS])-1;
+		if(m[IDX_POS]) argidx = parseInt(m[IDX_POS], 10)-1;
 		/* %m special case */
-		else if(c === /*m*/ 109 && !alt) { o.push("Success"); continue; }
+		else if(c === /*m*/ 109 && !alt) { o += /*.push*/("Success"); continue; }
 
 #define GRAB_INT(NAME, IDX, DFL) \
 		var NAME/*:number*/ = DFL; \
-		if(m[IDX] != null && m[IDX].length > 0) { \
+		if(/*m[IDX] != null &&*/ m[IDX].length > 0) { \
 			if(m[IDX].charAt(0) !== '*') NAME = parseInt(m[IDX], 10); \
 			else if(m[IDX].length === 1) NAME = args[idx++]; \
 			else NAME = args[parseInt(m[IDX].substr(1), 10)-1]; \
@@ -54,7 +55,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 		var arg/*:any*/ = args[argidx];
 
 		/* grab length */
-		var len/*:string*/ = m[IDX_LEN] || "";
+		var len/*:string*/ = m[IDX_LEN]/* || ""*/;
 
 #define INT isnum = -1
 #define SGN(s) sign = s
@@ -81,7 +82,7 @@ function doit(t/*:ParsedFmt*/, args/*:Array<any>*/)/*:string*/ {
 #include "70_float.js"
 		}
 
-		o.push(O);
+		o += /*.push*/(O);
 	}
-	return o.join("");
+	return o/*.join("")*/;
 }

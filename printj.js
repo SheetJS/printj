@@ -25,9 +25,12 @@ var PRINTJ;
 	/*jshint ignore:end */
 }(function(PRINTJ) {
 
-PRINTJ.version = '1.2.3';
+PRINTJ.version = '1.3.0';
+
+var tcache = {};
 
 function tokenize(fmt) {
+	if(tcache[fmt]) return tcache[fmt];
 	var out = [];
 	var start = 0;
 
@@ -146,7 +149,7 @@ function tokenize(fmt) {
 	}
 
 	if(start < fmt.length) out.push(["L", fmt.substring(start)]);
-	return out;
+	return (tcache[fmt] = out);
 }
 
 /*global process:true, util:true, require:true */
@@ -154,7 +157,8 @@ if(typeof process !== 'undefined' && !!process.versions && !!process.versions.no
 var u_inspect = (typeof util != 'undefined') ? util.inspect : JSON.stringify;
 
 function doit(t, args) {
-	var o = [];
+	//var o = [];
+	var o = "";
 	var argidx = 0, idx = 0;
 	var Vnum = 0;
 	var pad = "";
@@ -162,26 +166,26 @@ function doit(t, args) {
 		var m = t[i], c = (m[0]).charCodeAt(0);
 		/* m order: conv full param flags width prec length */
 
-		if(c === /*L*/ 76) { o.push(m[1]); continue; }
-		if(c === /*%*/ 37) { o.push("%"); continue; }
+		if(c === /*L*/ 76) { o += /*o.push*/(m[1]); continue; }
+		if(c === /*%*/ 37) { o += /*o.push*/("%"); continue; }
 
 		var O = "";
 		var isnum = 0, radix = 10, bytes = 4, sign = false;
 
 		/* flags */
-		var flags = m[3]||"";
+		var flags = m[3]/*||""*/;
 		var alt = flags.indexOf("#") > -1;
 
 		/* position */
-		if(m[2]) argidx = parseInt(m[2])-1;
+		if(m[2]) argidx = parseInt(m[2], 10)-1;
 		/* %m special case */
-		else if(c === /*m*/ 109 && !alt) { o.push("Success"); continue; }
+		else if(c === /*m*/ 109 && !alt) { o += /*.push*/("Success"); continue; }
 
 		/* grab width */
-		var width =  0; if(m[ 4] != null && m[ 4].length > 0) { if(m[ 4].charAt(0) !== '*') width = parseInt(m[ 4], 10); else if(m[ 4].length === 1) width = args[idx++]; else width = args[parseInt(m[ 4].substr(1), 10)-1]; }
+		var width =  0; if( m[ 4].length > 0) { if(m[ 4].charAt(0) !== '*') width = parseInt(m[ 4], 10); else if(m[ 4].length === 1) width = args[idx++]; else width = args[parseInt(m[ 4].substr(1), 10)-1]; }
 
 		/* grab precision */
-		var prec =  -1; if(m[ 5] != null && m[ 5].length > 0) { if(m[ 5].charAt(0) !== '*') prec = parseInt(m[ 5], 10); else if(m[ 5].length === 1) prec = args[idx++]; else prec = args[parseInt(m[ 5].substr(1), 10)-1]; }
+		var prec =  -1; if( m[ 5].length > 0) { if(m[ 5].charAt(0) !== '*') prec = parseInt(m[ 5], 10); else if(m[ 5].length === 1) prec = args[idx++]; else prec = args[parseInt(m[ 5].substr(1), 10)-1]; }
 
 		/* position not specified */
 		if(!m[2]) argidx = idx++;
@@ -190,7 +194,7 @@ function doit(t, args) {
 		var arg = args[argidx];
 
 		/* grab length */
-		var len = m[6] || "";
+		var len = m[6]/* || ""*/;
 
 		switch(c) {
 			/* str cCsS */
@@ -276,7 +280,8 @@ function doit(t, args) {
 
 			/* store length in the `len` key */
 			case /*n*/ 110:
-				if(arg) { arg.len=0; for(var oo = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
+				if(arg) { arg.len = o.length; }
+				//if(arg) { arg.len=0; for(var oo = 0; oo < o.length; ++oo) arg.len += o[oo].length; }
 				continue;
 
 			/* process error */
@@ -575,9 +580,9 @@ function doit(t, args) {
 
 		}
 
-		o.push(O);
+		o += /*.push*/(O);
 	}
-	return o.join("");
+	return o/*.join("")*/;
 }
 
 function vsprintf(fmt, args) { return doit(tokenize(fmt), args); }
