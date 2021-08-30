@@ -46,7 +46,7 @@
 	},
 	"alex": {
 		"allow": [
-			"period"
+			"period", "just", "special", "invalid"
 		]
 	},
 	"homepage": "http://sheetjs.com/opensource",

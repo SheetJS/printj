@@ -20,6 +20,7 @@ A self-contained specification of the printf format string is included below in
 <!-- toc -->
 
   * [Installation](#installation)
+    + [ES Module Support](#es-module-support)
   * [Usage](#usage)
   * [Testing](#testing)
   * [License](#license)
@@ -94,6 +95,38 @@ string with the given arguments.  Running the script with `-h` displays help.
 
 The script will manipulate `module.exports` if available.  This is not always
 desirable.  To prevent the behavior, define `DO_NOT_EXPORT_PRINTJ`
+
+### ES Module Support
+
+The bundle ships with a `printj.mjs` script that acts as an ES Module.
+
+**NodeJS**
+
+NodeJS 12+ support ES modules.  The default import uses the CommonJS script:
+
+```js
+import PRINTJ from "printj";
+```
+
+It is possible to use the ESM powered script referencing `printj.mjs` directly:
+
+```js
+import * as PRINTJ from "printj/printj.mjs"; // pull all exports
+import { sprintf } from "printj/printj.mjs"; // pull `sprintf`
+```
+
+**Browser Module Support**
+
+Chrome 61+ and Safari 11+ support module imports in the web browser.  The `.mjs`
+script can be imported from a `script type=module` block:
+
+```html
+<script type="module">
+import { sprintf } from './printj.mjs';
+console.log(sprintf("%02hhx", 123));
+</script>
+```
+
 
 ## Usage
 
@@ -693,10 +726,10 @@ This implementation performs the required adjustments.
 Aside from the special cases discussed above, JS `num.toExponential(prec)`
 differs from POSIX `printf("%1$.*2$e", num, prec)` in the exponent field: JS
 writes exponents with the fewest digits (POSIX requires 2+ digits).  This is
-easily fixed by inspecting the output string and inserting a "0" when needed.
+addressed by inspecting the output string and inserting a "0" when needed.
 
 The optional `#` flag forces the decimal point to appear when precision is 0.
-This is also easily corrected by adding a decimal point just before the "e".
+This is also fixed by adding a decimal point just before the "e".
 
 ## Standard Form ("f" and "F" conversions)
 
@@ -749,7 +782,7 @@ JS `num.toString(radix)` is implementation-dependent for radices other than 10
 (`2-9, 11-36`).  IE uses hex-mantissa decimal-hex-exponent form when the
 absolute value of the base-2 exponent exceeds 60.  Otherwise, IE uses an exact
 standard hexadecimal form.  Chrome, Safari and other browsers always use the
-exact standard hexadecimal form.  Both forms are easily converted to `"%a"` by
+exact standard hexadecimal form.  Both forms are converted to `"%a"` by
 calculating and dividing by the appropriate power of 2.
 
 For each non-zero normal floating point value, there are 4 acceptable strings
