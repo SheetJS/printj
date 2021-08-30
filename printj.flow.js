@@ -28,7 +28,7 @@ var PRINTJ/*:PRINTJModule*/;
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 
-PRINTJ.version = '1.2.2';
+PRINTJ.version = '1.2.3';
 
 function tokenize(fmt/*:string*/)/*:ParsedFmt*/ {
 	var out/*:ParsedFmt*/ = [];
