@@ -9,6 +9,7 @@
         "paths": { "printj": ["."] },
         "types": [],
         "noEmit": true,
+        "strictFunctionTypes": true,
         "forceConsistentCasingInFileNames": true
     }
 }

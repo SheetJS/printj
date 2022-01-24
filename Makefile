@@ -12,6 +12,13 @@ FLOWTARGET=$(LIB).flow.js
 MJSTARGET=$(LIB).mjs
 FLOWTGTS=$(TARGET) $(AUXTARGETS)
 CLOSURE=/usr/local/lib/node_modules/google-closure-compiler/compiler.jar
+UGLIFY="./node_modules/@sheetjs/uglify-js/bin/uglifyjs"
+JSCS=./node_modules/.bin/jscs
+JSHINT=./node_modules/.bin/jshint
+MOCHA=./node_modules/.bin/mocha
+ESLINT=./node_modules/.bin/eslint
+ALEX=./node_modules/.bin/alex
+MDSPELL=./node_modules/.bin/mdspell
 
 ## Main Targets
 
@@ -37,18 +44,22 @@ clean: clean-stress ## Remove targets and build artifacts
 	@OUTDIR=$(PWD)/lib make -C bits clean
 	rm -f $(TARGET) $(FLOWTARGET)
 
+.PHONY: init
+init: ## Initial setup for development
+	npm i
+
 .PHONY: dist
 dist: $(TARGET) ## Prepare JS files for distribution
 	cp $(TARGET) dist/
 	cp LICENSE dist/
-	uglifyjs $(TARGET) -o dist/$(LIB).min.js --source-map dist/$(LIB).min.map --preamble "$$(head -n 1 bits/00_header.js)"
+	$(UGLIFY) $(TARGET) -o dist/$(LIB).min.js --source-map dist/$(LIB).min.map --preamble "$$(head -n 1 bits/00_header.js)"
 	misc/strip_sourcemap.sh dist/$(LIB).min.js
 
 ## Testing
 
 .PHONY: test mocha
 test mocha: test.js $(TARGET) ## Run test suite
-	mocha -R spec -t 20000
+	$(MOCHA) -R spec -t 20000
 
 .PHONY: ctest
 ctest: ## Build browser test (into ctest/ subdirectory)
@@ -73,20 +84,20 @@ clean-stress: ## Remove stress tests
 ## Code Checking
 
 .PHONY: fullint
-fullint: lint old-lint tslint flow mdlint ## Run all checks
+fullint: lint old-lint tslint mdlint ## Run all checks
 
 .PHONY: lint
 lint: $(TARGET) ## Run eslint checks
-	@eslint --ext .js,.njs,.json,.html,.htm $(TARGET) $(AUXTARGETS) $(CMDS) $(HTMLLINT) package.json
+	@$(ESLINT) --ext .js,.njs,.json,.html,.htm $(TARGET) $(AUXTARGETS) $(CMDS) $(HTMLLINT) package.json
 	if [ -e $(CLOSURE) ]; then java -jar $(CLOSURE) $(FLOWTARGET) --jscomp_warning=reportUnknownTypes >/dev/null; fi
 
 .PHONY: old-lint
 old-lint: $(TARGET) ## Run jshint and jscs checks
-	@jshint --show-non-errors $(TARGET) $(AUXTARGETS)
-	@jshint --show-non-errors $(CMDS)
-	@jshint --show-non-errors package.json
-	@jshint --show-non-errors --extract=always $(HTMLLINT)
-	@jscs lib/*.js
+	@$(JSHINT) --show-non-errors $(TARGET) $(AUXTARGETS)
+	@$(JSHINT) --show-non-errors $(CMDS)
+	@$(JSHINT) --show-non-errors package.json
+	@$(JSHINT) --show-non-errors --extract=always $(HTMLLINT)
+	@$(JSCS) lib/*.js
 	if [ -e $(CLOSURE) ]; then java -jar $(CLOSURE) $(FLOWTARGET) --jscomp_warning=reportUnknownTypes >/dev/null; fi
 
 .PHONY: tslint
@@ -102,17 +113,17 @@ flow: lint ## Run flow checker
 cov: misc/coverage.html ## Run coverage test
 
 misc/coverage.html: $(TARGET) test.js
-	mocha --require blanket -R html-cov -t 20000 > $@
+	$(MOCHA) --require blanket -R html-cov -t 20000 > $@
 
 .PHONY: coveralls
 coveralls: ## Coverage Test + Send to coveralls.io
-	mocha --require blanket --reporter mocha-lcov-reporter -t 20000 | node ./node_modules/coveralls/bin/coveralls.js
+	$(MOCHA) --require blanket --reporter mocha-lcov-reporter -t 20000 | node ./node_modules/coveralls/bin/coveralls.js
 
 MDLINT=README.md
 .PHONY: mdlint
 mdlint: $(MDLINT) ## Check markdown documents
-	alex $^
-	mdspell -a -n -x -r --en-us $^
+	$(ALEX) $^
+	$(MDSPELL) -a -n -x -r --en-us $^
 
 .PHONY: help
 help:

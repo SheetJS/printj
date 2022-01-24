@@ -28,7 +28,7 @@ var PRINTJ/*:PRINTJModule*/;
 	/*jshint ignore:end */
 }(function(PRINTJ/*:PRINTJModule*/) {
 
-PRINTJ.version = '1.3.0';
+PRINTJ.version = '1.3.1';
 
 var tcache = {};
 

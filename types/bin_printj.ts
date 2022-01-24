@@ -34,7 +34,7 @@ return 0;
 
 function parse_arg(arg: string): any {
 	const m: string = arg.substr(2);
-	let p: number = 0;
+	let p = 0;
 	if(arg.charCodeAt(1) === 58) switch((p = arg.charCodeAt(0))) {
 		case /*n*/ 110: return parseInt(m, 10);
 		case /*f*/ 102: return parseFloat(m);

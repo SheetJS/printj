@@ -1,6 +1,6 @@
 {
 	"name": "printj",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"author": "sheetjs",
 	"description": "Pure-JS printf",
 	"keywords": [
@@ -10,10 +10,10 @@
 		"string"
 	],
 	"bin": {
-		"printj": "./bin/printj.njs"
+		"printj": "bin/printj.njs"
 	},
-	"main": "./printj",
-	"module": "./printj.mjs",
+	"main": "printj.js",
+	"module": "printj.mjs",
 	"types": "types",
 	"browser": {
 		"process": false,
@@ -24,10 +24,16 @@
 	"devDependencies": {
 		"@sheetjs/uglify-js": "~2.7.3",
 		"@types/node": "^8.0.7",
+		"alex": "10.0.0",
 		"blanket": "~1.2.3",
-		"dtslint": "^0.1.2",
-		"mocha": "~2.5.3",
-		"typescript": "2.2.0"
+		"dtslint": "4.2.1",
+		"eslint": "6.8.0",
+		"eslint-plugin-html": "6.0.0",
+		"eslint-plugin-json": "1.4.0",
+		"jscs": "3.0.7",
+		"jshint": "2.9.6",
+		"markdown-spellcheck": "1.3.1",
+		"mocha": "~2.5.3"
 	},
 	"repository": {
 		"type": "git",
@@ -46,6 +52,7 @@
 	},
 	"alex": {
 		"allow": [
+			"whitespace",
 			"special",
 			"period",
 			"just",
